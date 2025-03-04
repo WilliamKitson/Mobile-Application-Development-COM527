@@ -35,7 +35,7 @@ fun MapComposable(modifier: Modifier) {
 
             Row {
                 Button(onClick = {
-                    LocationModel.zoomIn()
+                    LocationModel.zoomOut()
                 }) {
                     Text("-")
                 }
@@ -43,7 +43,7 @@ fun MapComposable(modifier: Modifier) {
                 Text(zoom.toString())
 
                 Button(onClick = {
-                    LocationModel.zoomOut()
+                    LocationModel.zoomIn()
                 }) {
                     Text("+")
                 }
