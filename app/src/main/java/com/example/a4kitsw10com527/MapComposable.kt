@@ -21,9 +21,9 @@ import org.ramani.compose.MapLibre
 
 @Composable
 fun MapComposable(modifier: Modifier) {
-    var latitude by remember { mutableDoubleStateOf(LocationModel.latLng.latitude) }
-    var longitude by remember { mutableDoubleStateOf(LocationModel.latLng.longitude) }
-    var zoom by remember { mutableDoubleStateOf(14.0) }
+    var latitude by remember { mutableDoubleStateOf(LocationModel.getLatitude()) }
+    var longitude by remember { mutableDoubleStateOf(LocationModel.getLongitude()) }
+    var zoom by remember { mutableDoubleStateOf(LocationModel.getZoom()) }
 
     Surface(modifier) {
         Column {
@@ -35,7 +35,7 @@ fun MapComposable(modifier: Modifier) {
 
             Row {
                 Button(onClick = {
-                    zoom--
+                    LocationModel.zoomIn()
                 }) {
                     Text("-")
                 }
@@ -43,13 +43,13 @@ fun MapComposable(modifier: Modifier) {
                 Text(zoom.toString())
 
                 Button(onClick = {
-                    zoom++
+                    LocationModel.zoomOut()
                 }) {
                     Text("+")
                 }
             }
 
-            Text("latitude ${LocationModel.latLng.latitude}, longitude ${LocationModel.latLng.longitude}")
+            Text("latitude ${LocationModel.getLatitude()}, longitude ${LocationModel.getLongitude()}")
         }
     }
 }

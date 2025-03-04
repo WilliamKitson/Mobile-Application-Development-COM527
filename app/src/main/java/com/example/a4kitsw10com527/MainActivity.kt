@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.a4kitsw10com527.ui.theme._4kitsw10COM527Theme
-import org.maplibre.android.geometry.LatLng
 
 class MainActivity : ComponentActivity(), LocationListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +59,7 @@ class MainActivity : ComponentActivity(), LocationListener {
     }
 
     override fun onLocationChanged(location: Location) {
-        LocationModel.latLng = LatLng(
+        LocationModel.setLocation(
             location.latitude,
             location.longitude
         )
