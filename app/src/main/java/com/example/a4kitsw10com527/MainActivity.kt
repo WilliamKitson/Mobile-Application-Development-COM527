@@ -1,5 +1,9 @@
 package com.example.a4kitsw10com527
 
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,11 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.a4kitsw10com527.ui.theme._4kitsw10COM527Theme
+import org.maplibre.android.geometry.LatLng
 
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(), LocationListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         permissionLauncher()
+        startGPS()
 
         enableEdgeToEdge()
         setContent {
@@ -42,5 +48,21 @@ class MainActivity : ComponentActivity() {
         permissionLauncher.launch(arrayOf(
             android.Manifest.permission.ACCESS_FINE_LOCATION
         ))
+    }
+
+    private fun startGPS() {
+        val permission = android.Manifest.permission.ACCESS_FINE_LOCATION
+
+        if(checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
+            val mgr = getSystemService(LOCATION_SERVICE) as LocationManager
+            mgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, this)
+        }
+    }
+
+    override fun onLocationChanged(location: Location) {
+        LocationModel.latLng = LatLng(
+            location.latitude,
+            location.longitude
+        )
     }
 }

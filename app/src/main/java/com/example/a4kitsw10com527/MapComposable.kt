@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.remember
@@ -22,22 +21,12 @@ import org.ramani.compose.MapLibre
 
 @Composable
 fun MapComposable(modifier: Modifier) {
-    var latitude by remember { mutableDoubleStateOf(51.05) }
-    var longitude by remember { mutableDoubleStateOf(-0.72) }
+    var latitude by remember { mutableDoubleStateOf(LocationModel.latLng.latitude) }
+    var longitude by remember { mutableDoubleStateOf(LocationModel.latLng.longitude) }
     var zoom by remember { mutableDoubleStateOf(14.0) }
 
     Surface(modifier) {
         Column {
-            Row {
-                TextField(value = latitude.toString(), onValueChange = {
-                    latitude = it.toDouble()
-                })
-
-                TextField(value = longitude.toString(), onValueChange = {
-                    longitude = it.toDouble()
-                })
-            }
-
             MapLibre(
                 modifier = Modifier.width(250.dp).height(250.dp),
                 styleBuilder = Style.Builder().fromUri("https://tiles.openfreemap.org/styles/bright"),
@@ -59,6 +48,8 @@ fun MapComposable(modifier: Modifier) {
                     Text("+")
                 }
             }
+
+            Text("latitude ${LocationModel.latLng.latitude}, longitude ${LocationModel.latLng.longitude}")
         }
     }
 }
