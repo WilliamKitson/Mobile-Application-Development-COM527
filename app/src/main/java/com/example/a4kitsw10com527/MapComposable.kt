@@ -21,11 +21,11 @@ import org.ramani.compose.MapLibre
 
 @Composable
 fun MapComposable(modifier: Modifier) {
-    var latitude by remember { mutableDoubleStateOf(LocationModel.latLng.latitude) }
-    var longitude by remember { mutableDoubleStateOf(LocationModel.latLng.longitude) }
+    var latitude by remember { mutableDoubleStateOf(LocationModel.getLatitude()) }
+    var longitude by remember { mutableDoubleStateOf(LocationModel.getLongitude()) }
     var zoom by remember { mutableDoubleStateOf(14.0) }
 
-    LocationModel.latLngLiveData.observeForever {
+    LocationModel.getLocationLive().observeForever {
         latitude = it.latitude
         longitude = it.longitude
     }
@@ -54,7 +54,7 @@ fun MapComposable(modifier: Modifier) {
                 }
             }
 
-            Text("latitude ${LocationModel.latLng.latitude}, longitude ${LocationModel.latLng.longitude}")
+            Text("latitude ${LocationModel.getLatitude()}, longitude ${LocationModel.getLongitude()}")
         }
     }
 }
