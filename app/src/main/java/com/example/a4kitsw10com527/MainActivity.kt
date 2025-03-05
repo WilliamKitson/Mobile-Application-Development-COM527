@@ -81,12 +81,10 @@ class MainActivity : ComponentActivity(), LocationListener {
     }
 
     override fun onLocationChanged(location: Location) {
-        locationModel.latLng.apply { LatLng(
+        locationModel.latLng = LatLng(
             location.latitude,
             location.longitude
-        ) }
-
-        Toast.makeText(this, "lat ${location.latitude} lon ${location.longitude}", Toast.LENGTH_LONG).show()
+        )
     }
 
     @Composable
@@ -107,8 +105,8 @@ class MainActivity : ComponentActivity(), LocationListener {
         var zoom by remember { mutableDoubleStateOf(14.0) }
 
         locationModel.latLngLiveData.observe(this) {
-            latitude = locationModel.latLng.latitude
-            longitude = locationModel.latLng.longitude
+            latitude = it.latitude
+            longitude = it.longitude
         }
 
         Surface(modifier) {
