@@ -4,38 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.maplibre.android.geometry.LatLng
 
-object LocationModel : ViewModel() {
-    private var latLng = LatLng(51.05, -0.72)
+class LocationModel : ViewModel() {
+    var latLng = LatLng(51.05, -0.72)
         set(newValue) {
             field = newValue
             latLngLiveData.value = newValue
         }
 
-    private var latLngLiveData = MutableLiveData<LatLng>()
-    private var zoom = 14.0
-
-    fun setLocation(latitude: Double, longitude: Double) {
-        latLng.latitude = latitude
-        latLng.longitude = longitude
-    }
-
-    fun getLatitude(): Double {
-        return latLng.latitude
-    }
-
-    fun getLongitude(): Double {
-        return latLng.longitude
-    }
-
-    fun zoomIn() {
-        zoom--
-    }
-
-    fun zoomOut() {
-        zoom++
-    }
-
-    fun getZoom(): Double {
-        return zoom
-    }
+    var latLngLiveData = MutableLiveData<LatLng>()
 }
