@@ -30,6 +30,10 @@ fun MapComposable(modifier: Modifier) {
         longitude = it.longitude
     }
 
+    LocationModel.getZoomLive().observeForever {
+        zoom = it
+    }
+
     Surface(modifier) {
         Column {
             MapLibre(
@@ -40,7 +44,7 @@ fun MapComposable(modifier: Modifier) {
 
             Row {
                 Button(onClick = {
-                    zoom--
+                    LocationModel.zoomOut()
                 }) {
                     Text("-")
                 }
@@ -48,13 +52,11 @@ fun MapComposable(modifier: Modifier) {
                 Text(zoom.toString())
 
                 Button(onClick = {
-                    zoom++
+                    LocationModel.zoomIn()
                 }) {
                     Text("+")
                 }
             }
-
-            Text("latitude ${LocationModel.getLatitude()}, longitude ${LocationModel.getLongitude()}")
         }
     }
 }

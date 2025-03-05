@@ -13,11 +13,27 @@ object LocationModel : ViewModel() {
 
     private var latLngLiveData = MutableLiveData<LatLng>()
 
+    private var zoom = 14.0
+        set(newValue) {
+            field = newValue
+            zoomLive.value = newValue
+        }
+
+    private var zoomLive = MutableLiveData<Double>()
+
     fun setLocation(latitude: Double, longitude: Double) {
         latLng = LatLng(
             latitude,
             longitude
         )
+    }
+
+    fun zoomIn() {
+        zoom++
+    }
+
+    fun zoomOut() {
+        zoom--
     }
 
     fun getLatitude(): Double {
@@ -30,5 +46,9 @@ object LocationModel : ViewModel() {
 
     fun getLocationLive(): MutableLiveData<LatLng> {
         return latLngLiveData
+    }
+
+    fun getZoomLive(): MutableLiveData<Double> {
+        return zoomLive
     }
 }
