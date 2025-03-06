@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -21,13 +22,11 @@ import org.ramani.compose.MapLibre
 
 @Composable
 fun MapComposable(modifier: Modifier) {
-    var latitude by remember { mutableDoubleStateOf(LocationModel.getLatitude()) }
-    var longitude by remember { mutableDoubleStateOf(LocationModel.getLongitude()) }
+    var location by remember { mutableStateOf(LatLng(LocationModel.getLatitude(), LocationModel.getLongitude())) }
     var zoom by remember { mutableDoubleStateOf(14.0) }
 
     LocationModel.getLocationLive().observeForever {
-        latitude = it.latitude
-        longitude = it.longitude
+        location = it
     }
 
     LocationModel.getZoomLive().observeForever {
@@ -39,7 +38,7 @@ fun MapComposable(modifier: Modifier) {
             MapLibre(
                 modifier = Modifier.width(250.dp).height(250.dp),
                 styleBuilder = Style.Builder().fromUri("https://tiles.openfreemap.org/styles/bright"),
-                cameraPosition = CameraPosition(target = LatLng(latitude, longitude), zoom = zoom)
+                cameraPosition = CameraPosition(target = location, zoom = zoom)
             )
 
             Row {
