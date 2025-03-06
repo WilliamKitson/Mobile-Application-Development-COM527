@@ -22,7 +22,7 @@ import org.ramani.compose.MapLibre
 
 @Composable
 fun MapComposable(modifier: Modifier) {
-    var location by remember { mutableStateOf(LatLng(LocationModel.getLatitude(), LocationModel.getLongitude())) }
+    var location by remember { mutableStateOf(LatLng(0.0, 0.0)) }
     var zoom by remember { mutableDoubleStateOf(14.0) }
 
     LocationModel.getLocationLive().observeForever {
