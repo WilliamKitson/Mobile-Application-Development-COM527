@@ -1,5 +1,7 @@
 package com.example.a4kitsw10com527
 
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
@@ -13,6 +15,22 @@ fun NavigationComposable(modifier: Modifier) {
     NavHost(navController=navController, startDestination="map") {
         composable("map") {
             MapComposable(modifier)
+
+            Button(onClick = {
+                navController.navigate("addLocation")
+            }) {
+                Text("add location")
+            }
+        }
+
+        composable("addLocation") {
+            AddLocationComposable(modifier)
+
+            Button(onClick = {
+                navController.navigate("map")
+            }) {
+                Text("map")
+            }
         }
     }
 }
