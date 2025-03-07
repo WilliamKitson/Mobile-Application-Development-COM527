@@ -20,6 +20,7 @@ object LocationModel : ViewModel() {
         }
 
     private var zoomLive = MutableLiveData<Double>()
+    private var pointsOfInterest = arrayOf<PointOfInterest>()
 
     fun setLocation(latitude: Double, longitude: Double) {
         latLng = LatLng(
@@ -46,6 +47,10 @@ object LocationModel : ViewModel() {
         if (zoom < zoomMinimum) {
             zoom = zoomMinimum
         }
+    }
+
+    fun addPointOfInterest(pointOfInterest: PointOfInterest) {
+        pointsOfInterest += pointOfInterest
     }
 
     fun getLocationLive(): MutableLiveData<LatLng> {

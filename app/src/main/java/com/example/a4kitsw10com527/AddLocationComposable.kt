@@ -72,6 +72,15 @@ fun AddLocationComposable(modifier: Modifier, navController: NavController) {
             }
 
             Button(onClick = {
+                LocationModel.addPointOfInterest(PointOfInterest(
+                    name,
+                    type,
+                    latitude,
+                    longitude,
+                    rooms,
+                    meals
+                ))
+
                 navController.navigate("map")
             }) {
                 Text("Submit")
