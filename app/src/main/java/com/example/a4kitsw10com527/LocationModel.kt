@@ -30,6 +30,12 @@ object LocationModel : ViewModel() {
 
     fun zoomIn() {
         zoom++
+
+        val zoomMaximum = 20.0
+
+        if (zoom > zoomMaximum) {
+            zoom = zoomMaximum
+        }
     }
 
     fun zoomOut() {
