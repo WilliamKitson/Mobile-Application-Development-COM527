@@ -61,7 +61,7 @@ fun MapComposable(modifier: Modifier, navController: NavController) {
             Button(onClick = {
                 navController.navigate("addLocation")
             }) {
-                Text("add location")
+                Text("Save Location")
             }
         }
     }
