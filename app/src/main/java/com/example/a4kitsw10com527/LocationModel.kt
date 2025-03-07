@@ -40,6 +40,12 @@ object LocationModel : ViewModel() {
 
     fun zoomOut() {
         zoom--
+
+        val zoomMinimum = 0.0
+
+        if (zoom < zoomMinimum) {
+            zoom = zoomMinimum
+        }
     }
 
     fun getLocationLive(): MutableLiveData<LatLng> {
