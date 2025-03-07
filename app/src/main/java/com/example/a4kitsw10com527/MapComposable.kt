@@ -15,13 +15,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import org.maplibre.android.geometry.LatLng
 import org.maplibre.android.maps.Style
 import org.ramani.compose.CameraPosition
 import org.ramani.compose.MapLibre
 
 @Composable
-fun MapComposable(modifier: Modifier) {
+fun MapComposable(modifier: Modifier, navController: NavController) {
     var location by remember { mutableStateOf(LatLng(0.0, 0.0)) }
     var zoom by remember { mutableDoubleStateOf(14.0) }
 
@@ -55,6 +56,12 @@ fun MapComposable(modifier: Modifier) {
                 }) {
                     Text("+")
                 }
+            }
+
+            Button(onClick = {
+                navController.navigate("addLocation")
+            }) {
+                Text("add location")
             }
         }
     }
