@@ -25,6 +25,11 @@ fun AddLocationComposable(modifier: Modifier) {
     var rooms by remember { mutableIntStateOf(0) }
     var meals by remember { mutableStateOf(false) }
 
+    LocationModel.getLocationLive().observeForever {
+        latitude = it.latitude
+        longitude = it.longitude
+    }
+
     Surface(modifier) {
         Column {
             TextField(value = name, placeholder = {
