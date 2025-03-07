@@ -45,18 +45,6 @@ fun AddLocationComposable(modifier: Modifier, navController: NavController) {
                 type = it
             })
 
-            TextField(value = latitude.toString(), placeholder = {
-                Text("Latitude")
-            }, onValueChange = {
-                latitude = it.toDouble()
-            })
-
-            TextField(value = longitude.toString(), placeholder = {
-                Text("Longitude")
-            }, onValueChange = {
-                longitude = it.toDouble()
-            })
-
             TextField(value = rooms.toString(), placeholder = {
                 Text("Rooms")
             }, onValueChange = {
