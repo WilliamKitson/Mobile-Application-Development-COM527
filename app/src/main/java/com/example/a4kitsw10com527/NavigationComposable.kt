@@ -24,13 +24,7 @@ fun NavigationComposable(modifier: Modifier) {
         }
 
         composable("addLocation") {
-            AddLocationComposable(modifier)
-
-            Button(onClick = {
-                navController.navigate("map")
-            }) {
-                Text("map")
-            }
+            AddLocationComposable(modifier, navController)
         }
     }
 }

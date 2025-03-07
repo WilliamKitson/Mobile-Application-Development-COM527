@@ -15,9 +15,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 
 @Composable
-fun AddLocationComposable(modifier: Modifier) {
+fun AddLocationComposable(modifier: Modifier, navController: NavController) {
     var name by remember { mutableStateOf("") }
     var type by remember { mutableStateOf("") }
     var latitude by remember { mutableDoubleStateOf(0.0) }
@@ -71,7 +72,7 @@ fun AddLocationComposable(modifier: Modifier) {
             }
 
             Button(onClick = {
-
+                navController.navigate("map")
             }) {
                 Text("Submit")
             }
