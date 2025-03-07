@@ -19,6 +19,7 @@ import androidx.navigation.NavController
 import org.maplibre.android.geometry.LatLng
 import org.maplibre.android.maps.Style
 import org.ramani.compose.CameraPosition
+import org.ramani.compose.Circle
 import org.ramani.compose.MapLibre
 
 @Composable
@@ -40,7 +41,15 @@ fun MapComposable(modifier: Modifier, navController: NavController) {
                 modifier = Modifier.width(250.dp).height(250.dp),
                 styleBuilder = Style.Builder().fromUri("https://tiles.openfreemap.org/styles/bright"),
                 cameraPosition = CameraPosition(target = location, zoom = zoom)
-            )
+            ) {
+                LocationModel.getPointsOfInterest().forEach {
+                    Circle(
+                        center = LatLng(it.latitude, it.longitude),
+                        radius = 25.0f,
+                        opacity = 1.0f
+                    )
+                }
+            }
 
             Row {
                 Button(onClick = {

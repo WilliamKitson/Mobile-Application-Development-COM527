@@ -60,4 +60,8 @@ object LocationModel : ViewModel() {
     fun getZoomLive(): MutableLiveData<Double> {
         return zoomLive
     }
+
+    fun getPointsOfInterest(): Array<PointOfInterest> {
+        return pointsOfInterest
+    }
 }
