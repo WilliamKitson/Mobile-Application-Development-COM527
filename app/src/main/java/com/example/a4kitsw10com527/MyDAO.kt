@@ -5,10 +5,10 @@ import androidx.room.*
 @Dao
 interface MyDAO {
     @Query("SELECT * FROM points_of_interest WHERE id=:id")
-    fun getStudentById(id: Long): DataEntity?
+    fun getById(id: Long): DataEntity?
 
     @Query("SELECT * FROM points_of_interest")
-    fun getAllStudents(): List<DataEntity>
+    fun getAll(): List<DataEntity>
 
     @Insert
     fun insert(row: DataEntity) : Long
