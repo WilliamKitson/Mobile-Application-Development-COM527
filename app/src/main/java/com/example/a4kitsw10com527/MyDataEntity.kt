@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName="points_of_interest")
 
-data class DataEntity(
+data class MyDataEntity(
     @PrimaryKey(autoGenerate = true) val id: Long,
     val name: String,
     val type: String,
