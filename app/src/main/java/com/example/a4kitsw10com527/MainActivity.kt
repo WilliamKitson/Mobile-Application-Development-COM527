@@ -54,6 +54,7 @@ class MainActivity : ComponentActivity(), LocationListener {
         super.onCreate(savedInstanceState)
         permissionLauncher()
         startGPS()
+        loadPointsOfInterest()
 
         enableEdgeToEdge()
         setContent {
@@ -93,6 +94,25 @@ class MainActivity : ComponentActivity(), LocationListener {
             location.latitude,
             location.longitude
         )
+    }
+
+    private fun loadPointsOfInterest() {
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                val database = MyDatabase.getDatabase(application)
+
+                database.myDAO().getAll().forEach {
+                    LocationModel.addPointOfInterest(PointOfInterest(
+                        it.name,
+                        it.type,
+                        it.latitude,
+                        it.longitude,
+                        it.rooms,
+                        it.meals
+                    ))
+                }
+            }
+        }
     }
 
     @Composable
