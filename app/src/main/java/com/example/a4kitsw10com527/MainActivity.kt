@@ -115,11 +115,11 @@ class MainActivity : ComponentActivity(), LocationListener {
         var location by remember { mutableStateOf(LatLng(0.0, 0.0)) }
         var zoom by remember { mutableDoubleStateOf(14.0) }
 
-        LocationModel.getLocationLive().observeForever {
+        LocationModel.getLocationLive().observe(this) {
             location = it
         }
 
-        LocationModel.getZoomLive().observeForever {
+        LocationModel.getZoomLive().observe(this) {
             zoom = it
         }
 
@@ -130,7 +130,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                     styleBuilder = Style.Builder().fromUri("https://tiles.openfreemap.org/styles/bright"),
                     cameraPosition = CameraPosition(target = location, zoom = zoom)
                 ) {
-                    //TODO loop through database and draw
+                    //TODO
                 }
 
                 Row {
