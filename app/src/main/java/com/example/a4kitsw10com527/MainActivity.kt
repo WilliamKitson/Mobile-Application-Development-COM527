@@ -207,30 +207,14 @@ class MainActivity : ComponentActivity(), LocationListener {
 
                 Row {
                     Button(onClick = {
-                        lifecycleScope.launch {
-                            withContext(Dispatchers.IO) {
-                                val database = MyDatabase.getDatabase(application)
-
-                                database.myDAO().insert(MyDataEntity(
-                                    id = 0,
-                                    name = name,
-                                    type = type,
-                                    latitude = latitude,
-                                    longitude = longitude,
-                                    rooms = rooms,
-                                    meals = meals
-                                ))
-
-                                LocationModel.addPointOfInterest(PointOfInterest(
-                                    name,
-                                    type,
-                                    latitude,
-                                    longitude,
-                                    rooms,
-                                    meals
-                                ))
-                            }
-                        }
+                        writePointOfInterest(PointOfInterest(
+                            name,
+                            type,
+                            latitude,
+                            longitude,
+                            rooms,
+                            meals
+                        ))
 
                         navController.navigate("map")
                     }) {
@@ -243,6 +227,28 @@ class MainActivity : ComponentActivity(), LocationListener {
                         Text("Back")
                     }
                 }
+            }
+        }
+    }
+
+    private fun writePointOfInterest(pointOfInterest: PointOfInterest) {
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                val database = MyDatabase.getDatabase(application)
+
+                database.myDAO().insert(
+                    MyDataEntity(
+                        id = 0,
+                        name = pointOfInterest.name,
+                        type = pointOfInterest.type,
+                        latitude = pointOfInterest.latitude,
+                        longitude = pointOfInterest.longitude,
+                        rooms = pointOfInterest.rooms,
+                        meals = pointOfInterest.meals
+                    )
+                )
+
+                LocationModel.addPointOfInterest(pointOfInterest)
             }
         }
     }
