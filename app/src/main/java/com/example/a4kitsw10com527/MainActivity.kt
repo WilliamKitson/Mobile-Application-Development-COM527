@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -30,6 +31,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -159,27 +161,26 @@ class MainActivity : ComponentActivity(), LocationListener {
                 }
             }
 
-            Column {
-                Row {
-                    Button(onClick = {
-                        locationModel.zoomOut()
-                    }) {
-                        Text("-")
-                    }
-
-                    Text(zoom.toString())
-
-                    Button(onClick = {
-                        locationModel.zoomIn()
-                    }) {
-                        Text("+")
-                    }
+            Row(
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Button(onClick = {
+                    locationModel.zoomOut()
+                }) {
+                    Text("-")
                 }
 
                 Button(onClick = {
                     navController.navigate("addLocation")
                 }) {
                     Text("Save Location")
+                }
+
+                Button(onClick = {
+                    locationModel.zoomIn()
+                }) {
+                    Text("+")
                 }
             }
         }
