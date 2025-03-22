@@ -15,10 +15,9 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
@@ -65,6 +64,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                     .border(BorderStroke(2.dp, Color.Red))
                     .padding(16.dp)
                     .fillMaxWidth()
+                    .fillMaxHeight()
                 )
             }
         }
@@ -146,20 +146,20 @@ class MainActivity : ComponentActivity(), LocationListener {
         }
 
         Surface(modifier) {
-            Column {
-                MapLibre(
-                    modifier = Modifier.width(250.dp).height(250.dp),
-                    styleBuilder = Style.Builder().fromUri("https://tiles.openfreemap.org/styles/bright"),
-                    cameraPosition = CameraPosition(target = location, zoom = zoom)
-                ) {
-                    locationModel.getLandmarks().forEach {
-                        Circle(
-                            LatLng(it.latitude, it.longitude),
-                            25.0f
-                        )
-                    }
+            MapLibre(
+                modifier = Modifier,
+                styleBuilder = Style.Builder().fromUri("https://tiles.openfreemap.org/styles/bright"),
+                cameraPosition = CameraPosition(target = location, zoom = zoom)
+            ) {
+                locationModel.getLandmarks().forEach {
+                    Circle(
+                        LatLng(it.latitude, it.longitude),
+                        25.0f
+                    )
                 }
+            }
 
+            Column {
                 Row {
                     Button(onClick = {
                         locationModel.zoomOut()
