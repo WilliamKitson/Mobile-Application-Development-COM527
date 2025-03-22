@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.maplibre.android.geometry.LatLng
 
-object LocationModel : ViewModel() {
+class LocationModel : ViewModel() {
     private var latLng = LatLng(0.0, 0.0)
         set(newValue) {
             field = newValue

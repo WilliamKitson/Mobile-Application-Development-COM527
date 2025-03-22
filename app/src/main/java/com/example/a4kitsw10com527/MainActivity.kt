@@ -50,6 +50,8 @@ import org.ramani.compose.Circle
 import org.ramani.compose.MapLibre
 
 class MainActivity : ComponentActivity(), LocationListener {
+    private val locationModel = LocationModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         permissionLauncher()
@@ -90,7 +92,7 @@ class MainActivity : ComponentActivity(), LocationListener {
     }
 
     override fun onLocationChanged(location: Location) {
-        LocationModel.setLocation(
+        locationModel.setLocation(
             location.latitude,
             location.longitude
         )
@@ -102,7 +104,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                 val database = LandmarksDatabase.getDatabase(application)
 
                 database.landmarksDataAccessObject().getAll().forEach {
-                    LocationModel.addLandmark(Landmark(
+                    locationModel.addLandmark(Landmark(
                         it.name,
                         it.type,
                         it.latitude,
@@ -135,11 +137,11 @@ class MainActivity : ComponentActivity(), LocationListener {
         var location by remember { mutableStateOf(LatLng(0.0, 0.0)) }
         var zoom by remember { mutableDoubleStateOf(14.0) }
 
-        LocationModel.getLocationLive().observe(this) {
+        locationModel.getLocationLive().observe(this) {
             location = it
         }
 
-        LocationModel.getZoomLive().observe(this) {
+        locationModel.getZoomLive().observe(this) {
             zoom = it
         }
 
@@ -150,7 +152,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                     styleBuilder = Style.Builder().fromUri("https://tiles.openfreemap.org/styles/bright"),
                     cameraPosition = CameraPosition(target = location, zoom = zoom)
                 ) {
-                    LocationModel.getLandmarks().forEach {
+                    locationModel.getLandmarks().forEach {
                         Circle(
                             LatLng(it.latitude, it.longitude),
                             25.0f
@@ -160,7 +162,7 @@ class MainActivity : ComponentActivity(), LocationListener {
 
                 Row {
                     Button(onClick = {
-                        LocationModel.zoomOut()
+                        locationModel.zoomOut()
                     }) {
                         Text("-")
                     }
@@ -168,7 +170,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                     Text(zoom.toString())
 
                     Button(onClick = {
-                        LocationModel.zoomIn()
+                        locationModel.zoomIn()
                     }) {
                         Text("+")
                     }
@@ -192,7 +194,7 @@ class MainActivity : ComponentActivity(), LocationListener {
         var rooms by remember { mutableIntStateOf(0) }
         var meals by remember { mutableStateOf(false) }
 
-        LocationModel.getLocationLive().observeForever {
+        locationModel.getLocationLive().observeForever {
             latitude = it.latitude
             longitude = it.longitude
         }
@@ -268,7 +270,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                     )
                 )
 
-                LocationModel.addLandmark(landmark)
+                locationModel.addLandmark(landmark)
             }
         }
     }
