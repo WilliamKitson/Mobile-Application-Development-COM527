@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity(), LocationListener {
         super.onCreate(savedInstanceState)
         permissionLauncher()
         startGPS()
-        loadPointsOfInterest()
+        loadLandmarks()
 
         enableEdgeToEdge()
         setContent {
@@ -96,7 +96,7 @@ class MainActivity : ComponentActivity(), LocationListener {
         )
     }
 
-    private fun loadPointsOfInterest() {
+    private fun loadLandmarks() {
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 val database = MyDatabase.getDatabase(application)
