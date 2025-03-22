@@ -102,7 +102,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                 val database = MyDatabase.getDatabase(application)
 
                 database.myDAO().getAll().forEach {
-                    LocationModel.addPointOfInterest(PointOfInterest(
+                    LocationModel.addLandmark(Landmark(
                         it.name,
                         it.type,
                         it.latitude,
@@ -150,7 +150,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                     styleBuilder = Style.Builder().fromUri("https://tiles.openfreemap.org/styles/bright"),
                     cameraPosition = CameraPosition(target = location, zoom = zoom)
                 ) {
-                    LocationModel.getPointsOfInterest().forEach {
+                    LocationModel.getLandmarks().forEach {
                         Circle(
                             LatLng(it.latitude, it.longitude),
                             25.0f
@@ -227,7 +227,7 @@ class MainActivity : ComponentActivity(), LocationListener {
 
                 Row {
                     Button(onClick = {
-                        writePointOfInterest(PointOfInterest(
+                        writeLandmark(Landmark(
                             name,
                             type,
                             latitude,
@@ -251,7 +251,7 @@ class MainActivity : ComponentActivity(), LocationListener {
         }
     }
 
-    private fun writePointOfInterest(pointOfInterest: PointOfInterest) {
+    private fun writeLandmark(landmark: Landmark) {
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 val database = MyDatabase.getDatabase(application)
@@ -259,16 +259,16 @@ class MainActivity : ComponentActivity(), LocationListener {
                 database.myDAO().insert(
                     MyDataEntity(
                         id = 0,
-                        name = pointOfInterest.name,
-                        type = pointOfInterest.type,
-                        latitude = pointOfInterest.latitude,
-                        longitude = pointOfInterest.longitude,
-                        rooms = pointOfInterest.rooms,
-                        meals = pointOfInterest.meals
+                        name = landmark.name,
+                        type = landmark.type,
+                        latitude = landmark.latitude,
+                        longitude = landmark.longitude,
+                        rooms = landmark.rooms,
+                        meals = landmark.meals
                     )
                 )
 
-                LocationModel.addPointOfInterest(pointOfInterest)
+                LocationModel.addLandmark(landmark)
             }
         }
     }

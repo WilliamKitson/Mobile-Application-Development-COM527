@@ -1,6 +1,6 @@
 package com.example.a4kitsw10com527
 
-data class PointOfInterest(
+data class Landmark(
     val name: String,
     val type: String,
     val latitude: Double,

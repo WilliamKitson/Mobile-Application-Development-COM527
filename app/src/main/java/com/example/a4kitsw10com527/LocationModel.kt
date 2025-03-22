@@ -20,7 +20,7 @@ object LocationModel : ViewModel() {
         }
 
     private var zoomLive = MutableLiveData<Double>()
-    private var pointsOfInterest = arrayOf<PointOfInterest>()
+    private var landmarks = arrayOf<Landmark>()
 
     fun setLocation(latitude: Double, longitude: Double) {
         latLng = LatLng(
@@ -49,8 +49,8 @@ object LocationModel : ViewModel() {
         }
     }
 
-    fun addPointOfInterest(pointOfInterest: PointOfInterest) {
-        pointsOfInterest += pointOfInterest
+    fun addLandmark(landmark: Landmark) {
+        landmarks += landmark
     }
 
     fun getLocationLive(): MutableLiveData<LatLng> {
@@ -61,7 +61,7 @@ object LocationModel : ViewModel() {
         return zoomLive
     }
 
-    fun getPointsOfInterest(): Array<PointOfInterest> {
-        return pointsOfInterest
+    fun getLandmarks(): Array<Landmark> {
+        return landmarks
     }
 }
