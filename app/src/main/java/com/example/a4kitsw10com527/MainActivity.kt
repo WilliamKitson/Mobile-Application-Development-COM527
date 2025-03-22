@@ -130,7 +130,12 @@ class MainActivity : ComponentActivity(), LocationListener {
                     styleBuilder = Style.Builder().fromUri("https://tiles.openfreemap.org/styles/bright"),
                     cameraPosition = CameraPosition(target = location, zoom = zoom)
                 ) {
-                    //TODO
+                    LocationModel.getPointsOfInterest().forEach {
+                        Circle(
+                            LatLng(it.latitude, it.longitude),
+                            25.0f
+                        )
+                    }
                 }
 
                 Row {
@@ -214,6 +219,15 @@ class MainActivity : ComponentActivity(), LocationListener {
                                     longitude = longitude,
                                     rooms = rooms,
                                     meals = meals
+                                ))
+
+                                LocationModel.addPointOfInterest(PointOfInterest(
+                                    name,
+                                    type,
+                                    latitude,
+                                    longitude,
+                                    rooms,
+                                    meals
                                 ))
                             }
                         }
