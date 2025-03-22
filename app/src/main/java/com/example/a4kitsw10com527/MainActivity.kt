@@ -99,9 +99,9 @@ class MainActivity : ComponentActivity(), LocationListener {
     private fun loadLandmarks() {
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
-                val database = MyDatabase.getDatabase(application)
+                val database = LandmarksDatabase.getDatabase(application)
 
-                database.myDAO().getAll().forEach {
+                database.landmarksDataAccessObject().getAll().forEach {
                     LocationModel.addLandmark(Landmark(
                         it.name,
                         it.type,
@@ -254,10 +254,10 @@ class MainActivity : ComponentActivity(), LocationListener {
     private fun writeLandmark(landmark: Landmark) {
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
-                val database = MyDatabase.getDatabase(application)
+                val database = LandmarksDatabase.getDatabase(application)
 
-                database.myDAO().insert(
-                    MyDataEntity(
+                database.landmarksDataAccessObject().insert(
+                    LandmarksDataEntity(
                         id = 0,
                         name = landmark.name,
                         type = landmark.type,

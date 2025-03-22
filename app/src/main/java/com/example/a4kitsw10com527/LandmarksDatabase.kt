@@ -5,20 +5,20 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [MyDataEntity::class], version = 1, exportSchema = false)
-abstract class MyDatabase: RoomDatabase() {
-    abstract fun myDAO(): MyDAO
+@Database(entities = [LandmarksDataEntity::class], version = 1, exportSchema = false)
+abstract class LandmarksDatabase: RoomDatabase() {
+    abstract fun landmarksDataAccessObject(): LandmarksDataAccessObject
 
     companion object {
-        private var instance: MyDatabase? = null
+        private var instance: LandmarksDatabase? = null
 
-        fun getDatabase(ctx:Context) : MyDatabase {
+        fun getDatabase(ctx:Context) : LandmarksDatabase {
             var tmpInstance = instance
             if(tmpInstance == null) {
                 tmpInstance = Room.databaseBuilder(
                     ctx.applicationContext,
-                    MyDatabase::class.java,
-                    "MyDatabase"
+                    LandmarksDatabase::class.java,
+                    "LandmarksDatabase"
                 ).build()
                 instance = tmpInstance
             }
