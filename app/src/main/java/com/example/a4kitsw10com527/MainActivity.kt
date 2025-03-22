@@ -58,12 +58,6 @@ class MainActivity : ComponentActivity(), LocationListener {
         enableEdgeToEdge()
         setContent {
             _4kitsw10COM527Theme {
-                Button(onClick = {
-                    writePointOfInterest()
-                }) {
-                    Text("database")
-                }
-
                 NavigationComposable(Modifier
                     .border(BorderStroke(2.dp, Color.Red))
                     .padding(16.dp)
@@ -136,13 +130,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                     styleBuilder = Style.Builder().fromUri("https://tiles.openfreemap.org/styles/bright"),
                     cameraPosition = CameraPosition(target = location, zoom = zoom)
                 ) {
-                    LocationModel.getPointsOfInterest().forEach {
-                        Circle(
-                            center = LatLng(it.latitude, it.longitude),
-                            radius = 25.0f,
-                            opacity = 1.0f
-                        )
-                    }
+                    //TODO loop through database and draw
                 }
 
                 Row {
@@ -214,14 +202,21 @@ class MainActivity : ComponentActivity(), LocationListener {
 
                 Row {
                     Button(onClick = {
-                        LocationModel.addPointOfInterest(PointOfInterest(
-                            name,
-                            type,
-                            latitude,
-                            longitude,
-                            rooms,
-                            meals
-                        ))
+                        lifecycleScope.launch {
+                            withContext(Dispatchers.IO) {
+                                val database = MyDatabase.getDatabase(application)
+
+                                database.myDAO().insert(MyDataEntity(
+                                    id = 0,
+                                    name = name,
+                                    type = type,
+                                    latitude = latitude,
+                                    longitude = longitude,
+                                    rooms = rooms,
+                                    meals = meals
+                                ))
+                            }
+                        }
 
                         navController.navigate("map")
                     }) {
@@ -233,28 +228,6 @@ class MainActivity : ComponentActivity(), LocationListener {
                     }) {
                         Text("Back")
                     }
-                }
-            }
-        }
-    }
-
-    private fun writePointOfInterest() {
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                val database = MyDatabase.getDatabase(application)
-
-                database.myDAO().insert(MyDataEntity(
-                    id = 0,
-                    name = "test",
-                    type = "test",
-                    latitude = 0.0,
-                    longitude = 0.0,
-                    rooms = 0,
-                    meals = false
-                ))
-
-                for (i in database.myDAO().getAll()) {
-                    print("id: ${i.id}")
                 }
             }
         }
