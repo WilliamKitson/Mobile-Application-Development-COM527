@@ -229,6 +229,12 @@ class MainActivity : ComponentActivity(), LocationListener {
 
                 Row {
                     Button(onClick = {
+                        navController.navigate("map")
+                    }) {
+                        Text("Back")
+                    }
+
+                    Button(onClick = {
                         writeLandmark(Landmark(
                             name,
                             type,
@@ -241,12 +247,6 @@ class MainActivity : ComponentActivity(), LocationListener {
                         navController.navigate("map")
                     }) {
                         Text("Save")
-                    }
-
-                    Button(onClick = {
-                        navController.navigate("map")
-                    }) {
-                        Text("Back")
                     }
                 }
             }
