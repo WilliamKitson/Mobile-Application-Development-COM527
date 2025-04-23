@@ -246,12 +246,6 @@ class MainActivity : ComponentActivity(), LocationListener {
                 }
 
                 Button(onClick = {
-                    navController.navigate("addLocation")
-                }) {
-                    Text("Save Location")
-                }
-
-                Button(onClick = {
                     locationModel.zoomIn()
                 }) {
                     Text("+")
@@ -303,12 +297,6 @@ class MainActivity : ComponentActivity(), LocationListener {
                 }
 
                 Row {
-                    Button(onClick = {
-                        navController.navigate("map")
-                    }) {
-                        Text("Back")
-                    }
-
                     Button(onClick = {
                         writeLandmark(Landmark(
                             name,
