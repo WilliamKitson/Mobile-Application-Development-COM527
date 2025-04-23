@@ -19,11 +19,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
@@ -34,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -53,6 +63,7 @@ import org.ramani.compose.MapLibre
 class MainActivity : ComponentActivity(), LocationListener {
     private val locationModel = LocationModel()
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         permissionLauncher()
@@ -62,12 +73,40 @@ class MainActivity : ComponentActivity(), LocationListener {
         enableEdgeToEdge()
         setContent {
             _4kitsw10COM527Theme {
+                Scaffold(
+                    topBar = {
+                        TopAppBar(
+                            colors = TopAppBarDefaults.topAppBarColors(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                titleContentColor = MaterialTheme.colorScheme.primary
+                            ),
+                            actions = {
+                                IconButton(onClick = {
+                                    // TODO (see below) - show the menu when the icon is clicked
+                                }) {
+                                    Icon(imageVector = Icons.Filled.Menu, "Menu")
+                                }
+                            },
+                            title = { Text("Main Menu") }
+                        )
+                    }
+                ) { innerPadding ->
+                    Column(modifier = Modifier.padding(innerPadding)) {
+                        Text("TEMP")
+                    }
+                }
+
+
+                /*
+
                 NavigationComposable(Modifier
                     .border(BorderStroke(2.dp, Color.Red))
                     .padding(16.dp)
                     .fillMaxWidth()
                     .fillMaxHeight()
                 )
+
+                 */
             }
         }
     }
