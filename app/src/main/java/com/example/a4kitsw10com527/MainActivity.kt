@@ -22,10 +22,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
@@ -33,6 +37,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
@@ -63,7 +68,6 @@ import org.ramani.compose.MapLibre
 class MainActivity : ComponentActivity(), LocationListener {
     private val locationModel = LocationModel()
 
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         permissionLauncher()
@@ -73,40 +77,12 @@ class MainActivity : ComponentActivity(), LocationListener {
         enableEdgeToEdge()
         setContent {
             _4kitsw10COM527Theme {
-                Scaffold(
-                    topBar = {
-                        TopAppBar(
-                            colors = TopAppBarDefaults.topAppBarColors(
-                                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                titleContentColor = MaterialTheme.colorScheme.primary
-                            ),
-                            actions = {
-                                IconButton(onClick = {
-                                    // TODO (see below) - show the menu when the icon is clicked
-                                }) {
-                                    Icon(imageVector = Icons.Filled.Menu, "Menu")
-                                }
-                            },
-                            title = { Text("Main Menu") }
-                        )
-                    }
-                ) { innerPadding ->
-                    Column(modifier = Modifier.padding(innerPadding)) {
-                        Text("TEMP")
-                    }
-                }
-
-
-                /*
-
                 NavigationComposable(Modifier
                     .border(BorderStroke(2.dp, Color.Red))
                     .padding(16.dp)
                     .fillMaxWidth()
                     .fillMaxHeight()
                 )
-
-                 */
             }
         }
     }
@@ -158,17 +134,57 @@ class MainActivity : ComponentActivity(), LocationListener {
         }
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun NavigationComposable(modifier: Modifier) {
-        val navController = rememberNavController()
-
-        NavHost(navController=navController, startDestination="map") {
-            composable("map") {
-                MapComposable(modifier, navController)
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        titleContentColor = MaterialTheme.colorScheme.primary
+                    ),
+                    actions = {
+                        IconButton(onClick = {
+                            // TODO (see below) - show the menu when the icon is clicked
+                        }) {
+                            Icon(imageVector = Icons.Filled.Menu, "Menu")
+                        }
+                    },
+                    title = { Text("Main Menu") }
+                )
             }
+        ) { innerPadding ->
+            val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+            val navController = rememberNavController()
 
-            composable("addLocation") {
-                AddLocationComposable(modifier, navController)
+            ModalNavigationDrawer(drawerState = drawerState,
+                drawerContent = {
+                    ModalDrawerSheet{
+                        NavigationDrawerItem(
+                            selected = false,
+                            label = { Text("Add Student") },
+                            onClick = {
+                                // TODO: Close the drawer when clicked - see below
+                                navController.navigate("addLocation")
+                            }
+                        )
+                    }
+                }
+            ) {
+                NavHost(
+                    navController=navController,
+                    startDestination="map",
+                    modifier = Modifier.padding(innerPadding)
+                ) {
+                    composable("map") {
+                        MapComposable(modifier, navController)
+                    }
+
+                    composable("addLocation") {
+                        AddLocationComposable(modifier, navController)
+                    }
+                }
             }
         }
     }
