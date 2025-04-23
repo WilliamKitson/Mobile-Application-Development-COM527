@@ -168,6 +168,18 @@ class MainActivity : ComponentActivity(), LocationListener {
                     ModalDrawerSheet{
                         NavigationDrawerItem(
                             selected = false,
+                            label = { Text("Map") },
+                            onClick = {
+                                navController.navigate("map")
+
+                                coroutineScope.launch {
+                                    drawerState.close()
+                                }
+                            }
+                        )
+
+                        NavigationDrawerItem(
+                            selected = false,
                             label = { Text("Add Location") },
                             onClick = {
                                 navController.navigate("addLocation")
