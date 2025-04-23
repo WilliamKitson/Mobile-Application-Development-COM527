@@ -197,7 +197,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                     startDestination="map"
                 ) {
                     composable("map") {
-                        MapComposable(modifier, navController)
+                        MapComposable(modifier)
                     }
 
                     composable("addLocation") {
@@ -209,7 +209,7 @@ class MainActivity : ComponentActivity(), LocationListener {
     }
 
     @Composable
-    fun MapComposable(modifier: Modifier, navController: NavController) {
+    fun MapComposable(modifier: Modifier) {
         var location by remember { mutableStateOf(LatLng(0.0, 0.0)) }
         var zoom by remember { mutableDoubleStateOf(14.0) }
 
