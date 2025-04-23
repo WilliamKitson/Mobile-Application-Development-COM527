@@ -163,7 +163,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                     ModalDrawerSheet{
                         NavigationDrawerItem(
                             selected = false,
-                            label = { Text("Add Student") },
+                            label = { Text("Add Location") },
                             onClick = {
                                 // TODO: Close the drawer when clicked - see below
                                 navController.navigate("addLocation")
