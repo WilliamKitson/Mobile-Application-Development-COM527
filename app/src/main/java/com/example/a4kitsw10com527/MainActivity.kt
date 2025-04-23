@@ -19,15 +19,24 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -125,39 +134,63 @@ class MainActivity : ComponentActivity(), LocationListener {
         }
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun NavigationComposable(modifier: Modifier) {
-        val drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
+        val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         val coroutineScope = rememberCoroutineScope()
         val navController = rememberNavController()
 
-        ModalNavigationDrawer(drawerState = drawerState,
-            drawerContent = {
-                ModalDrawerSheet{
-                    NavigationDrawerItem(
-                        selected = false,
-                        label = { Text("Add Location") },
-                        onClick = {
-                            navController.navigate("addLocation")
-
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        titleContentColor = MaterialTheme.colorScheme.primary
+                    ),
+                    actions = {
+                        IconButton(onClick = {
                             coroutineScope.launch {
-                                drawerState.close()
+                                drawerState.open()
                             }
+                        }) {
+                            Icon(imageVector = Icons.Filled.Menu, "Menu")
                         }
-                    )
-                }
+                    },
+                    title = { Text("Main Menu") }
+                )
             }
-        ) {
-            NavHost(
-                navController=navController,
-                startDestination="map"
-            ) {
-                composable("map") {
-                    MapComposable(modifier, navController)
-                }
+        ) { innerPadding ->
+            ModalNavigationDrawer(
+                drawerState = drawerState,
+                modifier = Modifier.padding(innerPadding),
+                drawerContent = {
+                    ModalDrawerSheet{
+                        NavigationDrawerItem(
+                            selected = false,
+                            label = { Text("Add Location") },
+                            onClick = {
+                                navController.navigate("addLocation")
 
-                composable("addLocation") {
-                    AddLocationComposable(modifier, navController)
+                                coroutineScope.launch {
+                                    drawerState.close()
+                                }
+                            }
+                        )
+                    }
+                }
+            ) {
+                NavHost(
+                    navController=navController,
+                    startDestination="map"
+                ) {
+                    composable("map") {
+                        MapComposable(modifier, navController)
+                    }
+
+                    composable("addLocation") {
+                        AddLocationComposable(modifier, navController)
+                    }
                 }
             }
         }
