@@ -341,8 +341,4 @@ class MainActivity : ComponentActivity(), LocationListener {
             }
         }
     }
-
-    private fun openDrawer() {
-        return
-    }
 }
