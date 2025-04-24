@@ -289,7 +289,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                 TextField(value = rooms.toString(), placeholder = {
                     Text("Rooms")
                 }, onValueChange = {
-                    rooms = it.toInt()
+                    rooms = it.toIntOrNull() ?: 0
                 })
 
                 Row {
