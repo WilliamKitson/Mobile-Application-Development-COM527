@@ -151,7 +151,11 @@ class MainActivity : ComponentActivity(), LocationListener {
                     actions = {
                         IconButton(onClick = {
                             coroutineScope.launch {
-                                drawerState.open()
+                                if (drawerState.isOpen) {
+                                    drawerState.close()
+                                } else {
+                                    drawerState.open()
+                                }
                             }
                         }) {
                             Icon(imageVector = Icons.Filled.Menu, "Menu")
@@ -336,5 +340,9 @@ class MainActivity : ComponentActivity(), LocationListener {
                 locationModel.addLandmark(landmark)
             }
         }
+    }
+
+    private fun openDrawer() {
+        return
     }
 }
