@@ -139,7 +139,7 @@ class MainActivity : ComponentActivity(), LocationListener {
 
     private fun loadLandmarksFromWeb() {
         val url = "http://10.0.2.2:3000/accommodation/all"
-        url.httpGet().responseJson { request, response, result ->
+        url.httpGet().responseJson { _, _, result ->
             when(result) {
                 is com.github.kittinunf.result.Result.Success<*> -> {
                     val jsonArray = result.get().array()
@@ -198,6 +198,7 @@ class MainActivity : ComponentActivity(), LocationListener {
             }
         ) { innerPadding ->
             ModalNavigationDrawer(
+                gesturesEnabled = false,
                 drawerState = drawerState,
                 modifier = Modifier.padding(innerPadding),
                 drawerContent = {
