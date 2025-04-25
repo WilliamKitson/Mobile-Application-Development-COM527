@@ -38,6 +38,7 @@ room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 fuel = { group="com.github.kittinunf.fuel", name="fuel", version.ref="fuel" }
 fuel-android = { group="com.github.kittinunf.fuel", name="fuel-android", version.ref="fuel" }
+fuel-json = { group="com.github.kittinunf.fuel", name="fuel-json", version.ref="fuel" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

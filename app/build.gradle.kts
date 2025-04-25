@@ -65,4 +65,5 @@ dependencies {
     implementation(libs.ramanimaps)
     implementation(libs.fuel)
     implementation(libs.fuel.android)
+    implementation(libs.fuel.json)
 }
