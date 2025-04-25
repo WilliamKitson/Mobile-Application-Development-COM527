@@ -56,6 +56,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.a4kitsw10com527.ui.theme._4kitsw10COM527Theme
+import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.fuel.json.responseJson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -77,12 +79,15 @@ class MainActivity : ComponentActivity(), LocationListener {
         enableEdgeToEdge()
         setContent {
             _4kitsw10COM527Theme {
+                /*
                 NavigationComposable(Modifier
                     .border(BorderStroke(2.dp, Color.Red))
                     .padding(16.dp)
                     .fillMaxWidth()
                     .fillMaxHeight()
                 )
+                 */
+                FuelExampleJson()
             }
         }
     }
@@ -131,6 +136,36 @@ class MainActivity : ComponentActivity(), LocationListener {
                     ))
                 }
             }
+        }
+    }
+
+    @Composable
+    fun FuelExampleJson() {
+        var responseText by remember { mutableStateOf("") }
+        Column {
+            Button( onClick = {
+                val url = "http://10.0.2.2:3000/accommodation/all"
+                url.httpGet().responseJson { request, response, result ->
+                    when(result) {
+                        is com.github.kittinunf.result.Result.Success<*> -> {
+                            val jsonArray = result.get().array()
+                            var str = ""
+                            for(i in 0 until jsonArray.length()) {
+                                val curObj = jsonArray.getJSONObject(i)
+                                str += "id: ${curObj.getString("id")} ${curObj.getString("name")}"
+                            }
+                            responseText = str
+                        }
+
+                        is com.github.kittinunf.result.Result.Failure<*> -> {
+                            responseText = "ERROR ${result.error.message}"
+                        }
+                    }
+                }
+            }) {
+                Text("Get data from Web (Fuel/JSON)!")
+            }
+            Text(responseText)
         }
     }
 
