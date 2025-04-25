@@ -57,6 +57,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.a4kitsw10com527.ui.theme._4kitsw10COM527Theme
 import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.fuel.json.responseJson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -371,6 +372,28 @@ class MainActivity : ComponentActivity(), LocationListener {
                 )
 
                 locationModel.addLandmark(landmark)
+            }
+        }
+
+        val url = "http://10.0.2.2:3000/accommodation/create"
+        val postData = listOf(
+            "name" to landmark.name,
+            "type" to landmark.type,
+            "location" to "TEMP",
+            "rooms" to landmark.rooms,
+            "meals" to landmark.rooms,
+            "longitude" to landmark.longitude,
+            "latitude" to landmark.latitude
+        )
+
+        url.httpPost(postData).response { _, _, result ->
+            when (result) {
+                is com.github.kittinunf.result.Result.Success<*> -> {
+                    Toast.makeText(this, result.get().decodeToString(), Toast.LENGTH_LONG).show()
+                }
+                is com.github.kittinunf.result.Result.Failure<*> -> {
+                    Toast.makeText(this, "ERROR ${result.error.message}", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }
