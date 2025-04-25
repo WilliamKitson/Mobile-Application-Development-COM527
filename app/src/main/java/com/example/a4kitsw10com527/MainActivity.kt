@@ -159,7 +159,6 @@ class MainActivity : ComponentActivity(), LocationListener {
 
                     }
                 }
-
                 is com.github.kittinunf.result.Result.Failure<*> -> {
                     Toast.makeText(this, "ERROR ${result.error.message}", Toast.LENGTH_LONG).show()
                 }
@@ -375,6 +374,10 @@ class MainActivity : ComponentActivity(), LocationListener {
             }
         }
 
+        writeLandmarkToWeb(landmark)
+    }
+
+    private fun writeLandmarkToWeb(landmark: Landmark) {
         val url = "http://10.0.2.2:3000/accommodation/create"
         val postData = listOf(
             "name" to landmark.name,
