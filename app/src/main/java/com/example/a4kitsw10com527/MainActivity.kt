@@ -319,6 +319,18 @@ class MainActivity : ComponentActivity(), LocationListener {
                     type = it
                 })
 
+                TextField(value = latitude.toString(), placeholder = {
+                    Text("Latitude")
+                }, onValueChange = {
+                    latitude = it.toDoubleOrNull() ?: 0.0
+                })
+
+                TextField(value = longitude.toString(), placeholder = {
+                    Text("Longitude")
+                }, onValueChange = {
+                    longitude = it.toDoubleOrNull() ?: 0.0
+                })
+
                 TextField(value = rooms.toString(), placeholder = {
                     Text("Rooms")
                 }, onValueChange = {
@@ -384,9 +396,9 @@ class MainActivity : ComponentActivity(), LocationListener {
             "type" to landmark.type,
             "location" to "TEMP",
             "rooms" to landmark.rooms,
-            "meals" to landmark.rooms,
-            "longitude" to landmark.longitude,
-            "latitude" to landmark.latitude
+            "meals" to landmark.meals,
+            "longitude" to landmark.longitude.toFloat(),
+            "latitude" to landmark.latitude.toFloat()
         )
 
         url.httpPost(postData).response { _, _, result ->
