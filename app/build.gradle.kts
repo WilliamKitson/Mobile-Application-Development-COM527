@@ -63,4 +63,6 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.maplibre)
     implementation(libs.ramanimaps)
+    implementation(libs.fuel)
+    implementation(libs.fuel.android)
 }

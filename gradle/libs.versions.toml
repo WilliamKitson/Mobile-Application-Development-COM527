@@ -13,6 +13,7 @@ maplibre = "11.7.1"
 ramanimaps = "0.8.3"
 room = "2.6.1"
 ksp = "2.0.0-1.0.24"
+fuel = "2.3.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,6 +36,8 @@ ramanimaps = { group="org.ramani-maps", name="ramani-maplibre", version.ref="ram
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+fuel = { group="com.github.kittinunf.fuel", name="fuel", version.ref="fuel" }
+fuel-android = { group="com.github.kittinunf.fuel", name="fuel-android", version.ref="fuel" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
