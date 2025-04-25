@@ -75,19 +75,17 @@ class MainActivity : ComponentActivity(), LocationListener {
         permissionLauncher()
         startGPS()
         loadLandmarks()
+        loadLandmarksFromWeb()
 
         enableEdgeToEdge()
         setContent {
             _4kitsw10COM527Theme {
-                /*
                 NavigationComposable(Modifier
                     .border(BorderStroke(2.dp, Color.Red))
                     .padding(16.dp)
                     .fillMaxWidth()
                     .fillMaxHeight()
                 )
-                 */
-                FuelExampleJson()
             }
         }
     }
@@ -139,33 +137,32 @@ class MainActivity : ComponentActivity(), LocationListener {
         }
     }
 
-    @Composable
-    fun FuelExampleJson() {
-        var responseText by remember { mutableStateOf("") }
-        Column {
-            Button( onClick = {
-                val url = "http://10.0.2.2:3000/accommodation/all"
-                url.httpGet().responseJson { request, response, result ->
-                    when(result) {
-                        is com.github.kittinunf.result.Result.Success<*> -> {
-                            val jsonArray = result.get().array()
-                            var str = ""
-                            for(i in 0 until jsonArray.length()) {
-                                val curObj = jsonArray.getJSONObject(i)
-                                str += "id: ${curObj.getString("id")} ${curObj.getString("name")}"
-                            }
-                            responseText = str
-                        }
+    private fun loadLandmarksFromWeb() {
+        val url = "http://10.0.2.2:3000/accommodation/all"
+        url.httpGet().responseJson { request, response, result ->
+            when(result) {
+                is com.github.kittinunf.result.Result.Success<*> -> {
+                    val jsonArray = result.get().array()
 
-                        is com.github.kittinunf.result.Result.Failure<*> -> {
-                            responseText = "ERROR ${result.error.message}"
-                        }
+                    for(i in 0 until jsonArray.length()) {
+                        val curObj = jsonArray.getJSONObject(i)
+
+                        locationModel.addLandmark(Landmark(
+                            curObj.getString("name"),
+                            curObj.getString("type"),
+                            curObj.getDouble("latitude"),
+                            curObj.getDouble("longitude"),
+                            curObj.getInt("rooms"),
+                            true
+                        ))
+
                     }
                 }
-            }) {
-                Text("Get data from Web (Fuel/JSON)!")
+
+                is com.github.kittinunf.result.Result.Failure<*> -> {
+                    Toast.makeText(this, "ERROR ${result.error.message}", Toast.LENGTH_LONG).show()
+                }
             }
-            Text(responseText)
         }
     }
 
