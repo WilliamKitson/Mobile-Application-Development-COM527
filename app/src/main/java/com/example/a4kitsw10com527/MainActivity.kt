@@ -20,6 +20,8 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.DrawerValue
@@ -29,6 +31,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -195,6 +199,23 @@ class MainActivity : ComponentActivity(), LocationListener {
                     },
                     title = { Text("Main Menu") }
                 )
+            },
+            bottomBar = {
+                NavigationBar {
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Filled.Home, "Map") },
+                        label = { Text("Map") },
+                        onClick = { navController.navigate("map") },
+                        selected = false
+                    )
+
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Filled.Add, "Add Landmark") },
+                        label = { Text("Add Landmark") },
+                        onClick = { navController.navigate("addLocation") },
+                        selected = false
+                    )
+                }
             }
         ) { innerPadding ->
             ModalNavigationDrawer(
