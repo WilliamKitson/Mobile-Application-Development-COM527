@@ -142,7 +142,8 @@ class MainActivity : ComponentActivity(), LocationListener {
 
             val landmarkIntent = Intent(this, MainActivity::class.java).let {
                 it.action = "ACTION_SHOW_LANDMARK"
-                it.putExtra("emailMessageId", 2345)
+                it.putExtra("latitude", locationModel.getNotificationLandmark()!!.latitude)
+                it.putExtra("longitude", locationModel.getNotificationLandmark()!!.longitude)
             }
 
             landmarkIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
@@ -172,11 +173,10 @@ class MainActivity : ComponentActivity(), LocationListener {
         super.onNewIntent(intent)
         if(intent.action == "ACTION_SHOW_LANDMARK") {
             intent.extras?.let {
-                Toast.makeText(
-                    this,
-                    "Opening email with ID ${it.getInt("emailMessageId")}",
-                    Toast.LENGTH_LONG
-                ).show()
+                locationModel.setLocation(
+                    it.getDouble("latitude"),
+                    it.getDouble("longitude")
+                )
             }
         }
     }
