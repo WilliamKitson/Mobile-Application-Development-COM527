@@ -4,6 +4,8 @@ import android.Manifest
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
@@ -138,16 +140,44 @@ class MainActivity : ComponentActivity(), LocationListener {
             val nMgr = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             nMgr.createNotificationChannel(channel)
 
+            val landmarkIntent = Intent(this, MainActivity::class.java).let {
+                it.action = "ACTION_SHOW_LANDMARK"
+                it.putExtra("emailMessageId", 2345)
+            }
+
+            landmarkIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+
+            val landmarkPendingIntent = PendingIntent.getActivity(
+                this,
+                0,
+                landmarkIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
             val notification = Notification.Builder(this, channelID)
                 .setContentTitle("Location update")
                 .setContentText("you are within 50 meters of ${locationModel.getNotificationLandmark()!!.name}")
                 .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentIntent(landmarkPendingIntent)
                 .build()
 
             nMgr.notify(
                 0,
                 notification
             )
+        }
+    }
+
+    override fun onNewIntent(intent: Intent){
+        super.onNewIntent(intent)
+        if(intent.action == "ACTION_SHOW_LANDMARK") {
+            intent.extras?.let {
+                Toast.makeText(
+                    this,
+                    "Opening email with ID ${it.getInt("emailMessageId")}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 
