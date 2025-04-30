@@ -126,7 +126,7 @@ class MainActivity : ComponentActivity(), LocationListener {
             location.longitude
         )
 
-        if (locationModel.getNotificationLandmark() != "") {
+        if (locationModel.getNotificationLandmark() != null) {
             val channelID = "LOCATIONS_CHANNEL"
 
             val channel = NotificationChannel(
@@ -140,7 +140,7 @@ class MainActivity : ComponentActivity(), LocationListener {
 
             val notification = Notification.Builder(this, channelID)
                 .setContentTitle("Location update")
-                .setContentText("you are within 50 meters of ${locationModel.getNotificationLandmark()}")
+                .setContentText("you are within 50 meters of ${locationModel.getNotificationLandmark()!!.name}")
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .build()
 
