@@ -21,12 +21,49 @@ class LocationModel : ViewModel() {
 
     private var zoomLive = MutableLiveData<Double>()
     private var landmarks = arrayOf<Landmark>()
+    private var notificationLandmark = ""
 
     fun setLocation(latitude: Double, longitude: Double) {
         latLng = LatLng(
             latitude,
             longitude
         )
+
+        calculateNotificationLandmark()
+    }
+
+    private fun calculateNotificationLandmark() {
+        for (landmark in landmarks) {
+            if (squareRoot(difference(landmark)) <= 50.0) {
+                notificationLandmark = landmark.name
+                return
+            }
+        }
+
+        notificationLandmark = ""
+    }
+
+    private fun squareRoot(input: Double): Double {
+        var output: Double = input
+
+        while ((output - input / output) > 0.000001f)
+        {
+            output = (output + input / output) / 2
+        }
+
+        return output
+    }
+
+    private fun difference(landmark: Landmark): Double {
+        return difference(latLng.latitude, landmark.latitude) + difference(latLng.longitude, landmark.longitude)
+    }
+
+    private fun difference(a: Double, b: Double): Double {
+        return square(a - b)
+    }
+
+    private fun square(input: Double): Double {
+        return input * input
     }
 
     fun zoomIn() {
@@ -63,5 +100,9 @@ class LocationModel : ViewModel() {
 
     fun getLandmarks(): Array<Landmark> {
         return landmarks
+    }
+
+    fun getNotificationLandmark(): String {
+        return notificationLandmark
     }
 }

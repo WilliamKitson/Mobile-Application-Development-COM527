@@ -97,28 +97,6 @@ class MainActivity : ComponentActivity(), LocationListener {
                 )
             }
         }
-
-        val channelID = "LOCATIONS_CHANNEL"
-
-        val channel = NotificationChannel(
-            channelID,
-            "Location Notifications",
-            NotificationManager.IMPORTANCE_DEFAULT
-        )
-
-        val nMgr = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        nMgr.createNotificationChannel(channel)
-
-        val notification = Notification.Builder(this, channelID)
-            .setContentTitle("Time update")
-            .setContentText("Time is now ${System.currentTimeMillis()}")
-            .setSmallIcon(R.drawable.ic_launcher_background)
-            .build()
-
-        nMgr.notify(
-            0,
-            notification
-        )
     }
 
     private fun permissionLauncher() {
@@ -146,6 +124,28 @@ class MainActivity : ComponentActivity(), LocationListener {
         locationModel.setLocation(
             location.latitude,
             location.longitude
+        )
+
+        val channelID = "LOCATIONS_CHANNEL"
+
+        val channel = NotificationChannel(
+            channelID,
+            "Location Notifications",
+            NotificationManager.IMPORTANCE_DEFAULT
+        )
+
+        val nMgr = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        nMgr.createNotificationChannel(channel)
+
+        val notification = Notification.Builder(this, channelID)
+            .setContentTitle("Location update")
+            .setContentText("you are within 50 meters of ${locationModel.getNotificationLandmark()}")
+            .setSmallIcon(R.drawable.ic_launcher_background)
+            .build()
+
+        nMgr.notify(
+            0,
+            notification
         )
     }
 
