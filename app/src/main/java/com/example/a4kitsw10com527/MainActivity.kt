@@ -1,6 +1,9 @@
 package com.example.a4kitsw10com527
 
 import android.Manifest
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
@@ -94,6 +97,28 @@ class MainActivity : ComponentActivity(), LocationListener {
                 )
             }
         }
+
+        val channelID = "LOCATIONS_CHANNEL"
+
+        val channel = NotificationChannel(
+            channelID,
+            "Location Notifications",
+            NotificationManager.IMPORTANCE_DEFAULT
+        )
+
+        val nMgr = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        nMgr.createNotificationChannel(channel)
+
+        val notification = Notification.Builder(this, channelID)
+            .setContentTitle("Time update")
+            .setContentText("Time is now ${System.currentTimeMillis()}")
+            .setSmallIcon(R.drawable.ic_launcher_background)
+            .build()
+
+        nMgr.notify(
+            0,
+            notification
+        )
     }
 
     private fun permissionLauncher() {
