@@ -346,7 +346,7 @@ class MainActivity : ComponentActivity(), LocationListener {
             withContext(Dispatchers.IO) {
                 val database = LandmarksDatabase.getDatabase(application)
 
-                database.landmarksDataAccessObject().getAll().forEach {
+                database.landmarksDataAccessObject().getAll(location).forEach {
                     locationModel.addLandmark(Landmark(
                         it.name,
                         it.type,

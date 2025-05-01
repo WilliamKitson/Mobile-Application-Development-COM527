@@ -4,8 +4,8 @@ import androidx.room.*
 
 @Dao
 interface LandmarksDataAccessObject {
-    @Query("SELECT * FROM landmarks")
-    fun getAll(): List<LandmarksDataEntity>
+    @Query("SELECT * FROM landmarks WHERE location=:location")
+    fun getAll(location: String): List<LandmarksDataEntity>
 
     @Insert
     fun insert(row: LandmarksDataEntity) : Long
