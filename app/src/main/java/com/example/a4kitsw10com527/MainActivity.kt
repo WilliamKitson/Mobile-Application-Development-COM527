@@ -336,6 +336,7 @@ class MainActivity : ComponentActivity(), LocationListener {
 
     @Composable
     fun MapComposable(modifier: Modifier) {
+        var search by remember { mutableStateOf("") }
         var location by remember { mutableStateOf(LatLng(0.0, 0.0)) }
         var zoom by remember { mutableDoubleStateOf(14.0) }
 
@@ -347,37 +348,48 @@ class MainActivity : ComponentActivity(), LocationListener {
             zoom = it
         }
 
-        Surface(modifier) {
-            MapLibre(
-                modifier = Modifier,
-                styleBuilder = Style.Builder().fromUri("https://tiles.openfreemap.org/styles/bright"),
-                cameraPosition = CameraPosition(target = location, zoom = zoom)
-            ) {
-                locationModel.getLandmarks().forEach {
-                    Circle(
-                        LatLng(it.latitude, it.longitude),
-                        25.0f
-                    )
-                }
-            }
+        Column {
+            TextField(value = search, placeholder = {
+                Text("Search")
+            }, onValueChange = {
+                search = it
+            })
 
-            Row(
-                verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Button(onClick = {
-                    locationModel.zoomOut()
-                }) {
-                    Text("-")
+            Surface(modifier) {
+                MapLibre(
+                    modifier = Modifier,
+                    styleBuilder = Style.Builder()
+                        .fromUri("https://tiles.openfreemap.org/styles/bright"),
+                    cameraPosition = CameraPosition(target = location, zoom = zoom)
+                ) {
+                    locationModel.getLandmarks().forEach {
+                        Circle(
+                            LatLng(it.latitude, it.longitude),
+                            25.0f
+                        )
+                    }
                 }
 
-                Button(onClick = {
-                    locationModel.zoomIn()
-                }) {
-                    Text("+")
+                Row(
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Button(onClick = {
+                        locationModel.zoomOut()
+                    }) {
+                        Text("-")
+                    }
+
+                    Button(onClick = {
+                        locationModel.zoomIn()
+                    }) {
+                        Text("+")
+                    }
                 }
             }
         }
+
+
     }
 
     @Composable
