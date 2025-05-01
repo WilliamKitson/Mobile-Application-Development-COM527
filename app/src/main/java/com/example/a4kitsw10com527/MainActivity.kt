@@ -190,7 +190,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                     locationModel.addLandmark(Landmark(
                         it.name,
                         it.type,
-                        "test location",
+                        it.location,
                         it.latitude,
                         it.longitude,
                         it.rooms,
@@ -214,7 +214,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                         locationModel.addLandmark(Landmark(
                             curObj.getString("name"),
                             curObj.getString("type"),
-                            "test location",
+                            curObj.getString("location"),
                             curObj.getDouble("latitude"),
                             curObj.getDouble("longitude"),
                             curObj.getInt("rooms"),
@@ -384,6 +384,7 @@ class MainActivity : ComponentActivity(), LocationListener {
     fun AddLocationComposable(modifier: Modifier, navController: NavController) {
         var name by remember { mutableStateOf("") }
         var type by remember { mutableStateOf("") }
+        var location by remember { mutableStateOf("") }
         var latitude by remember { mutableDoubleStateOf(0.0) }
         var longitude by remember { mutableDoubleStateOf(0.0) }
         var rooms by remember { mutableIntStateOf(0) }
@@ -406,6 +407,12 @@ class MainActivity : ComponentActivity(), LocationListener {
                     Text("Type")
                 }, onValueChange = {
                     type = it
+                })
+
+                TextField(value = location, placeholder = {
+                    Text("Location")
+                }, onValueChange = {
+                    location = it
                 })
 
                 TextField(value = latitude.toString(), placeholder = {
@@ -439,7 +446,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                         writeLandmark(Landmark(
                             name,
                             type,
-                            "test location",
+                            location,
                             latitude,
                             longitude,
                             rooms,
