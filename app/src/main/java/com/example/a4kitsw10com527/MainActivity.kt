@@ -85,8 +85,6 @@ class MainActivity : ComponentActivity(), LocationListener {
         super.onCreate(savedInstanceState)
         permissionLauncher()
         startGPS()
-        loadLandmarks()
-        loadLandmarksFromWeb()
 
         enableEdgeToEdge()
         setContent {
@@ -177,55 +175,6 @@ class MainActivity : ComponentActivity(), LocationListener {
                     it.getDouble("latitude"),
                     it.getDouble("longitude")
                 )
-            }
-        }
-    }
-
-    private fun loadLandmarks() {
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                val database = LandmarksDatabase.getDatabase(application)
-
-                database.landmarksDataAccessObject().getAll().forEach {
-                    locationModel.addLandmark(Landmark(
-                        it.name,
-                        it.type,
-                        it.location,
-                        it.latitude,
-                        it.longitude,
-                        it.rooms,
-                        it.meals
-                    ))
-                }
-            }
-        }
-    }
-
-    private fun loadLandmarksFromWeb() {
-        val url = "http://10.0.2.2:3000/accommodation/all"
-        url.httpGet().responseJson { _, _, result ->
-            when(result) {
-                is com.github.kittinunf.result.Result.Success<*> -> {
-                    val jsonArray = result.get().array()
-
-                    for(i in 0 until jsonArray.length()) {
-                        val curObj = jsonArray.getJSONObject(i)
-
-                        locationModel.addLandmark(Landmark(
-                            curObj.getString("name"),
-                            curObj.getString("type"),
-                            curObj.getString("location"),
-                            curObj.getDouble("latitude"),
-                            curObj.getDouble("longitude"),
-                            curObj.getInt("rooms"),
-                            true
-                        ))
-
-                    }
-                }
-                is com.github.kittinunf.result.Result.Failure<*> -> {
-                    Toast.makeText(this, "ERROR ${result.error.message}", Toast.LENGTH_LONG).show()
-                }
             }
         }
     }
@@ -353,6 +302,8 @@ class MainActivity : ComponentActivity(), LocationListener {
                 Text("Search")
             }, onValueChange = {
                 search = it
+                loadLandmarks(it)
+                loadLandmarksFromWeb(it)
             })
 
             Surface(modifier) {
@@ -388,8 +339,55 @@ class MainActivity : ComponentActivity(), LocationListener {
                 }
             }
         }
+    }
 
+    private fun loadLandmarks(location: String) {
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                val database = LandmarksDatabase.getDatabase(application)
 
+                database.landmarksDataAccessObject().getAll().forEach {
+                    locationModel.addLandmark(Landmark(
+                        it.name,
+                        it.type,
+                        it.location,
+                        it.latitude,
+                        it.longitude,
+                        it.rooms,
+                        it.meals
+                    ))
+                }
+            }
+        }
+    }
+
+    private fun loadLandmarksFromWeb(location: String) {
+        val url = "http://10.0.2.2:3000/accommodation/all"
+        url.httpGet().responseJson { _, _, result ->
+            when(result) {
+                is com.github.kittinunf.result.Result.Success<*> -> {
+                    val jsonArray = result.get().array()
+
+                    for(i in 0 until jsonArray.length()) {
+                        val curObj = jsonArray.getJSONObject(i)
+
+                        locationModel.addLandmark(Landmark(
+                            curObj.getString("name"),
+                            curObj.getString("type"),
+                            curObj.getString("location"),
+                            curObj.getDouble("latitude"),
+                            curObj.getDouble("longitude"),
+                            curObj.getInt("rooms"),
+                            true
+                        ))
+
+                    }
+                }
+                is com.github.kittinunf.result.Result.Failure<*> -> {
+                    Toast.makeText(this, "ERROR ${result.error.message}", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
     @Composable
