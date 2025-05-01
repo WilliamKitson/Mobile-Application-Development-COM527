@@ -342,6 +342,8 @@ class MainActivity : ComponentActivity(), LocationListener {
     }
 
     private fun loadLandmarks(location: String) {
+        locationModel.clearLandmarks()
+
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 val database = LandmarksDatabase.getDatabase(application)

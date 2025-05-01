@@ -90,6 +90,10 @@ class LocationModel : ViewModel() {
         landmarks += landmark
     }
 
+    fun clearLandmarks() {
+        landmarks = arrayOf()
+    }
+
     fun getLocationLive(): MutableLiveData<LatLng> {
         return latLngLiveData
     }
