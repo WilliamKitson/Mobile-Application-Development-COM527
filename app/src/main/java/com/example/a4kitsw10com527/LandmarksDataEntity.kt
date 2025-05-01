@@ -9,6 +9,7 @@ data class LandmarksDataEntity(
     @PrimaryKey(autoGenerate = true) val id: Long,
     val name: String,
     val type: String,
+    val location: String,
     val latitude: Double,
     val longitude: Double,
     val rooms: Int,

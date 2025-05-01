@@ -190,6 +190,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                     locationModel.addLandmark(Landmark(
                         it.name,
                         it.type,
+                        "test location",
                         it.latitude,
                         it.longitude,
                         it.rooms,
@@ -213,6 +214,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                         locationModel.addLandmark(Landmark(
                             curObj.getString("name"),
                             curObj.getString("type"),
+                            "test location",
                             curObj.getDouble("latitude"),
                             curObj.getDouble("longitude"),
                             curObj.getInt("rooms"),
@@ -437,6 +439,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                         writeLandmark(Landmark(
                             name,
                             type,
+                            "test location",
                             latitude,
                             longitude,
                             rooms,
@@ -462,6 +465,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                         id = 0,
                         name = landmark.name,
                         type = landmark.type,
+                        location = landmark.location,
                         latitude = landmark.latitude,
                         longitude = landmark.longitude,
                         rooms = landmark.rooms,
