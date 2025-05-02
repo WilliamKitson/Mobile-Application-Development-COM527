@@ -302,6 +302,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                 Text("Search")
             }, onValueChange = {
                 search = it
+                locationModel.clearLandmarks()
                 loadLandmarks(it)
                 loadLandmarksFromWeb(it)
             })
@@ -342,8 +343,6 @@ class MainActivity : ComponentActivity(), LocationListener {
     }
 
     private fun loadLandmarks(location: String) {
-        locationModel.clearLandmarks()
-
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 val database = LandmarksDatabase.getDatabase(application)
@@ -373,16 +372,17 @@ class MainActivity : ComponentActivity(), LocationListener {
                     for(i in 0 until jsonArray.length()) {
                         val curObj = jsonArray.getJSONObject(i)
 
-                        locationModel.addLandmark(Landmark(
-                            curObj.getString("name"),
-                            curObj.getString("type"),
-                            curObj.getString("location"),
-                            curObj.getDouble("latitude"),
-                            curObj.getDouble("longitude"),
-                            curObj.getInt("rooms"),
-                            true
-                        ))
-
+                        if (curObj.getString("location") == location) {
+                            locationModel.addLandmark(Landmark(
+                                curObj.getString("name"),
+                                curObj.getString("type"),
+                                curObj.getString("location"),
+                                curObj.getDouble("latitude"),
+                                curObj.getDouble("longitude"),
+                                curObj.getInt("rooms"),
+                                true
+                            ))
+                        }
                     }
                 }
                 is com.github.kittinunf.result.Result.Failure<*> -> {
