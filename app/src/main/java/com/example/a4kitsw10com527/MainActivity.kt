@@ -301,46 +301,6 @@ class MainActivity : ComponentActivity(), LocationListener {
         var search by remember { mutableStateOf("") }
         var location by remember { mutableStateOf(LatLng(0.0, 0.0)) }
         var zoom by remember { mutableDoubleStateOf(14.0) }
-        var popup by remember { mutableStateOf<Landmark?>(Landmark(
-            "t",
-            "t",
-            "t",
-            0.0,
-            0.0,
-            0,
-            false
-        )) }
-
-        if (popup != null) {
-            AlertDialog(
-                title = {
-                    Text(popup!!.name)
-                },
-                text = {
-                    Text("Type: ${popup!!.type}\nLatitude: ${popup!!.latitude}\nLongitude: ${popup!!.longitude}")
-                },
-                onDismissRequest = {
-                },
-                confirmButton = {
-                    Button(
-                        onClick = {
-                            popup = null
-                        }
-                    ) {
-                        Text("Book")
-                    }
-                },
-                dismissButton = {
-                    Button(
-                        onClick = {
-                            popup = null
-                        }
-                    ) {
-                        Text("Back")
-                    }
-                }
-            )
-        }
 
         locationModel.getLocationLive().observe(this) {
             location = it
@@ -394,6 +354,52 @@ class MainActivity : ComponentActivity(), LocationListener {
                     }
                 }
             }
+        }
+
+        BookingPopup()
+    }
+
+    @Composable
+    private fun BookingPopup() {
+        var popup by remember { mutableStateOf<Landmark?>(Landmark(
+            "t",
+            "t",
+            "t",
+            0.0,
+            0.0,
+            0,
+            false
+        )) }
+
+        if (popup != null) {
+            AlertDialog(
+                title = {
+                    Text(popup!!.name)
+                },
+                text = {
+                    Text("Type: ${popup!!.type}\nLatitude: ${popup!!.latitude}\nLongitude: ${popup!!.longitude}")
+                },
+                onDismissRequest = {
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            popup = null
+                        }
+                    ) {
+                        Text("Book")
+                    }
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+                            popup = null
+                        }
+                    ) {
+                        Text("Back")
+                    }
+                }
+            )
         }
     }
 
