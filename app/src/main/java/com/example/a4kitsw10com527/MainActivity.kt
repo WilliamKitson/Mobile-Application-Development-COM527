@@ -127,46 +127,51 @@ class MainActivity : ComponentActivity(), LocationListener {
         )
 
         locationModel.calculateNotificationLandmark()
+        dispatchNotification()
+    }
 
-        if (locationModel.getNotificationLandmark() != null) {
-            val channelID = "LOCATIONS_CHANNEL"
-
-            val channel = NotificationChannel(
-                channelID,
-                "Location Notifications",
-                NotificationManager.IMPORTANCE_DEFAULT
-            )
-
-            val nMgr = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            nMgr.createNotificationChannel(channel)
-
-            val landmarkIntent = Intent(this, MainActivity::class.java).let {
-                it.action = "ACTION_SHOW_LANDMARK"
-                it.putExtra("latitude", locationModel.getNotificationLandmark()!!.latitude)
-                it.putExtra("longitude", locationModel.getNotificationLandmark()!!.longitude)
-            }
-
-            landmarkIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-
-            val landmarkPendingIntent = PendingIntent.getActivity(
-                this,
-                0,
-                landmarkIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-
-            val notification = Notification.Builder(this, channelID)
-                .setContentTitle("Location update")
-                .setContentText("you are within 50 meters of ${locationModel.getNotificationLandmark()!!.name}")
-                .setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentIntent(landmarkPendingIntent)
-                .build()
-
-            nMgr.notify(
-                0,
-                notification
-            )
+    private fun dispatchNotification() {
+        if (locationModel.getNotificationLandmark() == null) {
+            return
         }
+
+        val channelID = "LOCATIONS_CHANNEL"
+
+        val channel = NotificationChannel(
+            channelID,
+            "Location Notifications",
+            NotificationManager.IMPORTANCE_DEFAULT
+        )
+
+        val nMgr = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        nMgr.createNotificationChannel(channel)
+
+        val landmarkIntent = Intent(this, MainActivity::class.java).let {
+            it.action = "ACTION_SHOW_LANDMARK"
+            it.putExtra("latitude", locationModel.getNotificationLandmark()!!.latitude)
+            it.putExtra("longitude", locationModel.getNotificationLandmark()!!.longitude)
+        }
+
+        landmarkIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+
+        val landmarkPendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            landmarkIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val notification = Notification.Builder(this, channelID)
+            .setContentTitle("Location update")
+            .setContentText("you are within 50 meters of ${locationModel.getNotificationLandmark()!!.name}")
+            .setSmallIcon(R.drawable.ic_launcher_background)
+            .setContentIntent(landmarkPendingIntent)
+            .build()
+
+        nMgr.notify(
+            0,
+            notification
+        )
     }
 
     override fun onNewIntent(intent: Intent){
@@ -308,6 +313,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                 loadLandmarks(it)
                 loadLandmarksFromWeb(it)
                 locationModel.calculateNotificationLandmark()
+                dispatchNotification()
             })
 
             Surface(modifier) {
