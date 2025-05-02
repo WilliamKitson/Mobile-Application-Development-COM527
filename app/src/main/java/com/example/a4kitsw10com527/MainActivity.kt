@@ -301,22 +301,31 @@ class MainActivity : ComponentActivity(), LocationListener {
         var search by remember { mutableStateOf("") }
         var location by remember { mutableStateOf(LatLng(0.0, 0.0)) }
         var zoom by remember { mutableDoubleStateOf(14.0) }
+        var popup by remember { mutableStateOf<Landmark?>(Landmark(
+            "t",
+            "t",
+            "t",
+            0.0,
+            0.0,
+            0,
+            false
+        )) }
 
-        if (true) {
+        if (popup != null) {
             AlertDialog(
                 title = {
-                    Text("test")
+                    Text(popup!!.name)
                 },
                 text = {
                     Text("Type: \nLatitude: \nlongitude:")
                 },
                 onDismissRequest = {
-
+                    popup = null
                 },
                 confirmButton = {
                     Button(
                         onClick = {
-
+                            popup = null
                         }
                     ) {
                         Text("Book")
