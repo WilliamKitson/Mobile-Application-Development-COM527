@@ -19,9 +19,15 @@ class LocationModel : ViewModel() {
             zoomLive.value = newValue
         }
 
+    private var notificationLandmark: Landmark? = null
+        set(newValue) {
+            field = newValue
+            notificationLandmarkLiveData.value = newValue
+        }
+
+    private var notificationLandmarkLiveData = MutableLiveData<Landmark?>()
     private var zoomLive = MutableLiveData<Double>()
     private var landmarks = arrayOf<Landmark>()
-    private var notificationLandmark: Landmark? = null
 
     fun setLocation(latitude: Double, longitude: Double) {
         latLng = LatLng(
@@ -106,5 +112,9 @@ class LocationModel : ViewModel() {
 
     fun getNotificationLandmark(): Landmark? {
         return notificationLandmark
+    }
+
+    fun getNotificationLandmarkLive(): MutableLiveData<Landmark?> {
+        return notificationLandmarkLiveData
     }
 }
