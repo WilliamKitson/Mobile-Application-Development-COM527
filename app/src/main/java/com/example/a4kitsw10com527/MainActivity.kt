@@ -317,7 +317,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                     Text(popup!!.name)
                 },
                 text = {
-                    Text("Type: \nLatitude: \nlongitude:")
+                    Text("Type: ${popup!!.type}\nLatitude: ${popup!!.latitude}\nLongitude: ${popup!!.longitude}")
                 },
                 onDismissRequest = {
                 },
