@@ -513,7 +513,7 @@ class MainActivity : ComponentActivity(), LocationListener {
         val postData = listOf(
             "name" to landmark.name,
             "type" to landmark.type,
-            "location" to "TEMP",
+            "location" to landmark.location,
             "rooms" to landmark.rooms,
             "meals" to landmark.meals,
             "longitude" to landmark.longitude.toFloat(),
