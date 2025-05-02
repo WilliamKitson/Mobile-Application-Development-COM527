@@ -28,11 +28,9 @@ class LocationModel : ViewModel() {
             latitude,
             longitude
         )
-
-        calculateNotificationLandmark()
     }
 
-    private fun calculateNotificationLandmark() {
+    fun calculateNotificationLandmark() {
         for (landmark in landmarks) {
             if (squareRoot(difference(landmark)) <= 50.0) {
                 notificationLandmark = landmark

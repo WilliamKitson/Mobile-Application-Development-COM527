@@ -126,6 +126,8 @@ class MainActivity : ComponentActivity(), LocationListener {
             location.longitude
         )
 
+        locationModel.calculateNotificationLandmark()
+
         if (locationModel.getNotificationLandmark() != null) {
             val channelID = "LOCATIONS_CHANNEL"
 
@@ -305,6 +307,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                 locationModel.clearLandmarks()
                 loadLandmarks(it)
                 loadLandmarksFromWeb(it)
+                locationModel.calculateNotificationLandmark()
             })
 
             Surface(modifier) {
