@@ -320,7 +320,6 @@ class MainActivity : ComponentActivity(), LocationListener {
                     Text("Type: \nLatitude: \nlongitude:")
                 },
                 onDismissRequest = {
-                    popup = null
                 },
                 confirmButton = {
                     Button(
@@ -334,7 +333,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                 dismissButton = {
                     Button(
                         onClick = {
-
+                            popup = null
                         }
                     ) {
                         Text("Back")
