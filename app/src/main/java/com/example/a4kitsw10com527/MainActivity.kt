@@ -436,18 +436,6 @@ class MainActivity : ComponentActivity(), LocationListener {
                     location = it
                 })
 
-                TextField(value = latitude.toString(), placeholder = {
-                    Text("Latitude")
-                }, onValueChange = {
-                    latitude = it.toDoubleOrNull() ?: 0.0
-                })
-
-                TextField(value = longitude.toString(), placeholder = {
-                    Text("Longitude")
-                }, onValueChange = {
-                    longitude = it.toDoubleOrNull() ?: 0.0
-                })
-
                 TextField(value = rooms.toString(), placeholder = {
                     Text("Rooms")
                 }, onValueChange = {
