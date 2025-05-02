@@ -356,16 +356,20 @@ class MainActivity : ComponentActivity(), LocationListener {
             }
         }
 
-        BookingPopup()
+        MapMarkerPopup()
     }
 
     @Composable
-    private fun BookingPopup() {
-        var popup by remember { mutableStateOf<Landmark?>(null) }
-
-        locationModel.getNotificationLandmarkLive().observe(this) {
-            popup = it
-        }
+    private fun MapMarkerPopup() {
+        var popup by remember { mutableStateOf<Landmark?>(Landmark(
+            "This is a dummy landmark",
+            "Dummy",
+            "Dummy",
+            0.0,
+            0.0,
+            0,
+            false
+        )) }
 
         if (popup != null) {
             AlertDialog(
