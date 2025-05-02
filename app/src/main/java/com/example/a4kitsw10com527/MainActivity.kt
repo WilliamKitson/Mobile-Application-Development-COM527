@@ -30,6 +30,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -300,6 +301,38 @@ class MainActivity : ComponentActivity(), LocationListener {
         var search by remember { mutableStateOf("") }
         var location by remember { mutableStateOf(LatLng(0.0, 0.0)) }
         var zoom by remember { mutableDoubleStateOf(14.0) }
+
+        if (true) {
+            AlertDialog(
+                title = {
+                    Text("test")
+                },
+                text = {
+                    Text("Type: \nLatitude: \nlongitude:")
+                },
+                onDismissRequest = {
+
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+
+                        }
+                    ) {
+                        Text("Book")
+                    }
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+
+                        }
+                    ) {
+                        Text("Back")
+                    }
+                }
+            )
+        }
 
         locationModel.getLocationLive().observe(this) {
             location = it
