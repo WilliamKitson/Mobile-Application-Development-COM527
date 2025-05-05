@@ -385,6 +385,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                 confirmButton = {
                     Button(
                         onClick = {
+                            bookLandmark(popup!!)
                             popup = null
                         }
                     ) {
@@ -450,6 +451,15 @@ class MainActivity : ComponentActivity(), LocationListener {
                 is com.github.kittinunf.result.Result.Failure<*> -> {
                     Toast.makeText(this, "ERROR ${result.error.message}", Toast.LENGTH_LONG).show()
                 }
+            }
+        }
+    }
+
+    private fun bookLandmark(popup: Landmark) {
+        locationModel.getLandmarks().forEach { it ->
+            if (it.rooms <= 0) {
+                Toast.makeText(this, "No room at the Inn", Toast.LENGTH_LONG).show()
+                return
             }
         }
     }
