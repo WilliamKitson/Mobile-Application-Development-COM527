@@ -345,7 +345,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                                     landmark.location,
                                     landmark.latitude,
                                     landmark.longitude,
-                                    landmark.rooms,
+                                    landmark.getRooms(),
                                     landmark.meals
                                 )
                             }
@@ -378,7 +378,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                     Text(popup!!.name)
                 },
                 text = {
-                    Text("Type: ${popup!!.type}\nLocation: ${popup!!.location}\nLatitude: ${popup!!.latitude}\nLongitude: ${popup!!.longitude}\nRooms: ${popup!!.rooms}\nMeals: ${popup!!.meals}")
+                    Text("Type: ${popup!!.type}\nLocation: ${popup!!.location}\nLatitude: ${popup!!.latitude}\nLongitude: ${popup!!.longitude}\nRooms: ${popup!!.getRooms()}\nMeals: ${popup!!.meals}")
                 },
                 onDismissRequest = {
                 },
@@ -457,9 +457,14 @@ class MainActivity : ComponentActivity(), LocationListener {
 
     private fun bookLandmark(popup: Landmark) {
         locationModel.getLandmarks().forEach { it ->
-            if (it.rooms <= 0) {
-                Toast.makeText(this, "No room at the Inn", Toast.LENGTH_LONG).show()
-                return
+            if (it == popup) {
+                if (it.getRooms() <= 0) {
+                    Toast.makeText(this, "No room at the Inn", Toast.LENGTH_LONG).show()
+                    return
+                }
+
+                it.bookRoom()
+                Toast.makeText(this, "Room booked! ${it.getRooms()} rooms remaining.", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -547,7 +552,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                         location = landmark.location,
                         latitude = landmark.latitude,
                         longitude = landmark.longitude,
-                        rooms = landmark.rooms,
+                        rooms = landmark.getRooms(),
                         meals = landmark.meals
                     )
                 )
@@ -565,7 +570,7 @@ class MainActivity : ComponentActivity(), LocationListener {
             "name" to landmark.name,
             "type" to landmark.type,
             "location" to landmark.location,
-            "rooms" to landmark.rooms,
+            "rooms" to landmark.getRooms(),
             "meals" to landmark.meals,
             "longitude" to landmark.longitude.toFloat(),
             "latitude" to landmark.latitude.toFloat()
