@@ -376,36 +376,44 @@ class MainActivity : ComponentActivity(), LocationListener {
 
     @Composable
     private fun MapMarkerPopup(popup: Landmark?) {
-        if (popup != null) {
-            AlertDialog(
-                title = {
-                    Text(popup.name)
-                },
-                text = {
-                    Text("Type: ${popup.type}\nLatitude: ${popup.latitude}\nLongitude: ${popup.longitude}")
-                },
-                onDismissRequest = {
-                },
-                confirmButton = {
-                    Button(
-                        onClick = {
-
-                        }
-                    ) {
-                        Text("Book")
-                    }
-                },
-                dismissButton = {
-                    Button(
-                        onClick = {
-
-                        }
-                    ) {
-                        Text("Back")
-                    }
-                }
-            )
+        if (popup == null) {
+            return
         }
+
+        var open by remember { mutableStateOf(true) }
+
+        if (!open) {
+            return;
+        }
+
+        AlertDialog(
+            title = {
+                Text(popup.name)
+            },
+            text = {
+                Text("Type: ${popup.type}\nLatitude: ${popup.latitude}\nLongitude: ${popup.longitude}")
+            },
+            onDismissRequest = {
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        open = false
+                    }
+                ) {
+                    Text("Book")
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = {
+                        open = false
+                    }
+                ) {
+                    Text("Back")
+                }
+            }
+        )
     }
 
     private fun loadLandmarks(location: String) {
