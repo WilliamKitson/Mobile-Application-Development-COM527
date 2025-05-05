@@ -372,49 +372,36 @@ class MainActivity : ComponentActivity(), LocationListener {
             }
         }
 
-        MapMarkerPopup(popup)
-    }
-
-    @Composable
-    private fun MapMarkerPopup(popup: Landmark?) {
-        if (popup == null) {
-            return
-        }
-
-        var open by remember { mutableStateOf(true) }
-
-        if (!open) {
-            return
-        }
-
-        AlertDialog(
-            title = {
-                Text(popup.name)
-            },
-            text = {
-                Text("Type: ${popup.type}\nLocation: ${popup.location}\nLatitude: ${popup.latitude}\nLongitude: ${popup.longitude}\nRooms: ${popup.rooms}\nMeals: ${popup.meals}")
-            },
-            onDismissRequest = {
-            },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        open = false
+        if (popup != null) {
+            AlertDialog(
+                title = {
+                    Text(popup!!.name)
+                },
+                text = {
+                    Text("Type: ${popup!!.type}\nLocation: ${popup!!.location}\nLatitude: ${popup!!.latitude}\nLongitude: ${popup!!.longitude}\nRooms: ${popup!!.rooms}\nMeals: ${popup!!.meals}")
+                },
+                onDismissRequest = {
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            popup = null
+                        }
+                    ) {
+                        Text("Book")
                     }
-                ) {
-                    Text("Book")
-                }
-            },
-            dismissButton = {
-                Button(
-                    onClick = {
-                        open = false
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+                            popup = null
+                        }
+                    ) {
+                        Text("Back")
                     }
-                ) {
-                    Text("Back")
                 }
-            }
-        )
+            )
+        }
     }
 
     private fun loadLandmarks(location: String) {
