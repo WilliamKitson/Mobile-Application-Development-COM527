@@ -78,7 +78,6 @@ import kotlinx.coroutines.withContext
 import org.maplibre.android.geometry.LatLng
 import org.maplibre.android.maps.Style
 import org.ramani.compose.CameraPosition
-import org.ramani.compose.Circle
 import org.ramani.compose.MapLibre
 import org.ramani.compose.Symbol
 
@@ -332,20 +331,22 @@ class MainActivity : ComponentActivity(), LocationListener {
                         .fromUri("https://tiles.openfreemap.org/styles/bright"),
                     cameraPosition = CameraPosition(target = location, zoom = zoom)
                 ) {
-                    locationModel.getLandmarks().forEach {
+                    locationModel.getLandmarks().forEach { it ->
+                        val landmark = it
+
                         Symbol(
                             center = LatLng(it.latitude, it.longitude),
                             imageId = org.maplibre.android.R.drawable.maplibre_marker_icon_default,
                             size = 1.0f,
                             onClick = {
                                 popup = Landmark(
-                                    "This is a dummy landmark",
-                                    "Dummy",
-                                    "Dummy",
-                                    0.0,
-                                    0.0,
-                                    0,
-                                    false
+                                    landmark.name,
+                                    landmark.type,
+                                    landmark.location,
+                                    landmark.latitude,
+                                    landmark.longitude,
+                                    landmark.rooms,
+                                    landmark.meals
                                 )
                             }
                         )
@@ -383,7 +384,7 @@ class MainActivity : ComponentActivity(), LocationListener {
         var open by remember { mutableStateOf(true) }
 
         if (!open) {
-            return;
+            return
         }
 
         AlertDialog(
@@ -391,7 +392,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                 Text(popup.name)
             },
             text = {
-                Text("Type: ${popup.type}\nLatitude: ${popup.latitude}\nLongitude: ${popup.longitude}")
+                Text("Type: ${popup.type}\nLocation: ${popup.location}\nLatitude: ${popup.latitude}\nLongitude: ${popup.longitude}\nRooms: ${popup.rooms}\nMeals: ${popup.meals}")
             },
             onDismissRequest = {
             },
