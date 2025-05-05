@@ -457,7 +457,7 @@ class MainActivity : ComponentActivity(), LocationListener {
 
     private fun bookLandmark(popup: Landmark) {
         locationModel.getLandmarks().forEach { it ->
-            if (it == popup) {
+            if (it.name == popup.name) {
                 if (it.getRooms() <= 0) {
                     Toast.makeText(this, "No room at the Inn", Toast.LENGTH_LONG).show()
                     return
