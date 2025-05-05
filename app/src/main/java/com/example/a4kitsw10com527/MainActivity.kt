@@ -80,6 +80,7 @@ import org.maplibre.android.maps.Style
 import org.ramani.compose.CameraPosition
 import org.ramani.compose.Circle
 import org.ramani.compose.MapLibre
+import org.ramani.compose.Symbol
 
 class MainActivity : ComponentActivity(), LocationListener {
     private val locationModel = LocationModel()
@@ -310,6 +311,8 @@ class MainActivity : ComponentActivity(), LocationListener {
             zoom = it
         }
 
+        var popup by remember { mutableStateOf<Landmark?>(null) }
+
         Column {
             TextField(value = search, placeholder = {
                 Text("Search")
@@ -330,9 +333,21 @@ class MainActivity : ComponentActivity(), LocationListener {
                     cameraPosition = CameraPosition(target = location, zoom = zoom)
                 ) {
                     locationModel.getLandmarks().forEach {
-                        Circle(
-                            LatLng(it.latitude, it.longitude),
-                            25.0f
+                        Symbol(
+                            center = LatLng(it.latitude, it.longitude),
+                            imageId = org.maplibre.android.R.drawable.maplibre_marker_icon_default,
+                            size = 1.0f,
+                            onClick = {
+                                popup = Landmark(
+                                    "This is a dummy landmark",
+                                    "Dummy",
+                                    "Dummy",
+                                    0.0,
+                                    0.0,
+                                    0,
+                                    false
+                                )
+                            }
                         )
                     }
                 }
@@ -356,35 +371,25 @@ class MainActivity : ComponentActivity(), LocationListener {
             }
         }
 
-        MapMarkerPopup()
+        MapMarkerPopup(popup)
     }
 
     @Composable
-    private fun MapMarkerPopup() {
-        var popup by remember { mutableStateOf<Landmark?>(Landmark(
-            "This is a dummy landmark",
-            "Dummy",
-            "Dummy",
-            0.0,
-            0.0,
-            0,
-            false
-        )) }
-
+    private fun MapMarkerPopup(popup: Landmark?) {
         if (popup != null) {
             AlertDialog(
                 title = {
-                    Text(popup!!.name)
+                    Text(popup.name)
                 },
                 text = {
-                    Text("Type: ${popup!!.type}\nLatitude: ${popup!!.latitude}\nLongitude: ${popup!!.longitude}")
+                    Text("Type: ${popup.type}\nLatitude: ${popup.latitude}\nLongitude: ${popup.longitude}")
                 },
                 onDismissRequest = {
                 },
                 confirmButton = {
                     Button(
                         onClick = {
-                            popup = null
+
                         }
                     ) {
                         Text("Book")
@@ -393,7 +398,7 @@ class MainActivity : ComponentActivity(), LocationListener {
                 dismissButton = {
                     Button(
                         onClick = {
-                            popup = null
+
                         }
                     ) {
                         Text("Back")
